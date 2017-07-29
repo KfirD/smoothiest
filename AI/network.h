@@ -12,7 +12,7 @@ class Network {
 public:
    Network(Neurons& input, Neurons& output);
    Connections& get_connections();
-   bool connect(Neuron src, Neuron dst, double weight);
+   bool connect(Neuron &src, Neuron &dst, double weight);
 
 private:
    Neurons inner_neurons;

@@ -15,7 +15,7 @@ class Trigger_Function {
 class Neuron {
 public:
    Neuron(int id);
-   int get_id();
+   int get_id() const;
 private:
    int id;
    //Trigger_Function trigger;
@@ -25,7 +25,7 @@ private:
 class Connection {
 public:
    Connection(Neuron &src, Neuron &dst, double weight);
-   int get_id();
+   int get_id() const;
    Neuron& get_src();
    Neuron& get_dst();
    double get_weight();

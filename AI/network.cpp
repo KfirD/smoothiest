@@ -10,7 +10,7 @@ Connections& Network::get_connections() {return connections;}
 
 //all connecting handled here
 //by convention a connection goes from low to high id
-bool Network::connect(Neuron src, Neuron dst, double weight) {
+bool Network::connect(Neuron &src, Neuron &dst, double weight) {
    if(src.get_id() < dst.get_id()) {
       connections.push_back(Connection(src,dst,weight));
    }

@@ -5,7 +5,7 @@
 
 //Neuron ---------------------------------------------------------------
 Neuron::Neuron(int id): id(id) {}
-int Neuron::get_id() { return id; }
+int Neuron::get_id() const { return id; }
 
 //Connection -----------------------------------------------------------
 //bijective function (int,int)->int
@@ -18,7 +18,7 @@ src(src), dst(dst), weight(weight) {
    id = cantor(src.get_id(), dst.get_id());
 }
 
-int Connection::get_id() {return id;}
+int Connection::get_id() const {return id;}
 Neuron& Connection::get_src() {return src;}
 Neuron& Connection::get_dst() {return dst;}
 double Connection::get_weight() {return weight;}
