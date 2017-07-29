@@ -24,6 +24,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9iY-KO-CAq">
                                 <rect key="frame" x="121" y="318" width="133" height="30"/>
                                 <state key="normal" title="Gimme a smoothie!"/>
+                                <connections>
+                                    <action selector="gimmeASmoothiePressed:" destination="9pv-A4-QxB" eventType="touchUpInside" id="soS-ht-Ue8"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYI-8E-fs3">
                                 <rect key="frame" x="94.5" y="120" width="186" height="118"/>
@@ -98,6 +101,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="mangoSwitch" destination="VOt-Mv-8o2" id="eK8-4y-pPF"/>
+                        <outlet property="strawberrySwitch" destination="rWq-We-Inj" id="G9Y-0b-UjF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
