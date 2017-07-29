@@ -18,7 +18,14 @@ class FirstViewController: UIViewController {
     }
 
     @IBAction func gimmeASmoothiePressed(_ sender: Any) {
-        
+        var ingredients = [Ingredient]()
+        if strawberrySwitch.isOn {
+            ingredients.append(Ingredient(name: "strawberries"))
+        }
+        if mangoSwitch.isOn {
+            ingredients.append(Ingredient(name: "mangoes"))
+        }
+        NetworkController.sendIngredientsToServer(ingredients: ingredients)
     }
 
 }
