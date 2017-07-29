@@ -22,10 +22,10 @@ class FirstViewController: UIViewController {
         var ingredients = [Ingredient]()
         let smoothieAmount = Float(amountField.text!)
         if strawberrySwitch.isOn {
-            ingredients.append(Ingredient(name: "strawberries"))
+            ingredients.append(Ingredient("strawberries"))
         }
         if mangoSwitch.isOn {
-            ingredients.append(Ingredient(name: "mangoes"))
+            ingredients.append(Ingredient("mangoes"))
         }
         guard userErrorCheck(ingredients: ingredients, smoothieAmount: smoothieAmount) == true else {
             return
