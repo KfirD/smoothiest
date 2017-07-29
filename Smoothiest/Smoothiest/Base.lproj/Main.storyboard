@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,6 +33,42 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cpG-CJ-1ze">
                                 <rect key="frame" x="0.0" y="172" width="375" height="435"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kLF-gi-vDA" customClass="IngredientTableViewCell" customModule="Smoothiest" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kLF-gi-vDA" id="SNN-SB-9ip">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Example Ingredient" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J6s-cS-J77">
+                                                    <rect key="frame" x="92" y="11" width="275" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TuM-WW-83X">
+                                                    <rect key="frame" x="8" y="0.0" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="TuM-WW-83X" secondAttribute="height" id="MtT-Dm-zGo"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="J6s-cS-J77" firstAttribute="trailing" secondItem="SNN-SB-9ip" secondAttribute="trailingMargin" id="1K4-hf-HxE"/>
+                                                <constraint firstItem="J6s-cS-J77" firstAttribute="centerY" secondItem="SNN-SB-9ip" secondAttribute="centerY" id="3m5-xE-SmC"/>
+                                                <constraint firstItem="TuM-WW-83X" firstAttribute="top" secondItem="SNN-SB-9ip" secondAttribute="top" id="8u7-It-09N"/>
+                                                <constraint firstItem="TuM-WW-83X" firstAttribute="leading" secondItem="SNN-SB-9ip" secondAttribute="leading" constant="8" id="DRj-W2-50y"/>
+                                                <constraint firstItem="J6s-cS-J77" firstAttribute="leading" secondItem="TuM-WW-83X" secondAttribute="trailing" constant="40" id="Orr-tb-aPK"/>
+                                                <constraint firstAttribute="bottom" secondItem="TuM-WW-83X" secondAttribute="bottom" id="kJe-cp-faZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="J6s-cS-J77" id="3WL-oY-8yv"/>
+                                            <outlet property="pictureView" destination="TuM-WW-83X" id="W4T-oO-wOA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="28b-WA-3UC">
                                 <rect key="frame" x="0.0" y="128" width="375" height="44"/>
