@@ -19,7 +19,6 @@ bool Network::connect(Neuron &src, Neuron &dst, double weight) {
    }
    //should check for redundant connections
 
-
    return true;
 
 }

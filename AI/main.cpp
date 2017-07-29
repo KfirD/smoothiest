@@ -6,7 +6,6 @@
 using namespace std;
 
 int main() {
-
    //input
    Neurons inputs = {Neuron(0), Neuron(2)};
    Neurons outputs = {Neuron(1), Neuron(4)};

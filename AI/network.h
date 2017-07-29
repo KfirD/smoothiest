@@ -20,7 +20,6 @@ private:
 
    Neurons& input;
    Neurons& output;
-
 };
 
 std::ostream &operator<<(std::ostream &out, Network &coord);
