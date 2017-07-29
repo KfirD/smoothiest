@@ -28,7 +28,7 @@ public:
    int get_id() const;
    Neuron& get_src();
    Neuron& get_dst();
-   double get_weight();
+   double get_weight() const;
 
 private:
    int id;

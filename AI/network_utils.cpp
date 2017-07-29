@@ -21,7 +21,7 @@ src(src), dst(dst), weight(weight) {
 int Connection::get_id() const {return id;}
 Neuron& Connection::get_src() {return src;}
 Neuron& Connection::get_dst() {return dst;}
-double Connection::get_weight() {return weight;}
+double Connection::get_weight() const {return weight;}
 
 
 //Trigger Function -----------------------------------------------------
