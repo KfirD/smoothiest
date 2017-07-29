@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  MainViewController.swift
 //  Smoothiest
 //
 //  Created by Keegan Papakipos on 7/29/17.
@@ -8,11 +8,13 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var amountField: UITextField!
-    @IBOutlet weak var strawberrySwitch: UISwitch!
-    @IBOutlet weak var mangoSwitch: UISwitch!
+    @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var ingredientsSearchBar: UISearchBar!
+    
+    let possibleIngredients = [Ingredient("Strawberries"),Ingredient("Mangoes")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +23,7 @@ class FirstViewController: UIViewController {
     @IBAction func gimmeASmoothiePressed(_ sender: Any) {
         var ingredients = [Ingredient]()
         let smoothieAmount = Float(amountField.text!)
-        if strawberrySwitch.isOn {
-            ingredients.append(Ingredient("strawberries"))
-        }
-        if mangoSwitch.isOn {
-            ingredients.append(Ingredient("mangoes"))
-        }
+        //TODO: Add required ingredients to ingredients array
         guard userErrorCheck(ingredients: ingredients, smoothieAmount: smoothieAmount) == true else {
             return
         }
@@ -48,5 +45,24 @@ class FirstViewController: UIViewController {
             return false
         }
         return true
+    }
+    
+    // MARK: - Table view data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return possibleIngredients.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        
+        // Configure the cell...
+        
+        return cell
     }
 }
