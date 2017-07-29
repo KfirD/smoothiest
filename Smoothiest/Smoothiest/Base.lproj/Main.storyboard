@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9pv-A4-QxB">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -91,42 +91,34 @@
                                     <constraint firstItem="93F-91-cim" firstAttribute="leading" secondItem="SYI-8E-fs3" secondAttribute="leading" constant="8" id="zTp-pH-lyW"/>
                                 </constraints>
                             </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ounces of smoothie" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kWq-9Q-YFP">
+                                <rect key="frame" x="102.5" y="82" width="170" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9iY-KO-CAq" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="0Ez-Aa-ai7"/>
+                            <constraint firstItem="SYI-8E-fs3" firstAttribute="top" secondItem="kWq-9Q-YFP" secondAttribute="bottom" constant="8" id="16I-r7-KIQ"/>
                             <constraint firstItem="9iY-KO-CAq" firstAttribute="top" secondItem="SYI-8E-fs3" secondAttribute="bottom" constant="80" id="5KQ-ro-ecj"/>
                             <constraint firstItem="SYI-8E-fs3" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="Bwn-QV-Fuf"/>
                             <constraint firstItem="SYI-8E-fs3" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="100" id="Zqz-gg-64g"/>
+                            <constraint firstItem="kWq-9Q-YFP" firstAttribute="leading" secondItem="93F-91-cim" secondAttribute="leading" id="h9k-f1-IRg"/>
+                            <constraint firstItem="kWq-9Q-YFP" firstAttribute="centerX" secondItem="SYI-8E-fs3" secondAttribute="centerX" id="qAq-go-l6k"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="amountField" destination="kWq-9Q-YFP" id="Ex7-bM-cmY"/>
                         <outlet property="mangoSwitch" destination="VOt-Mv-8o2" id="eK8-4y-pPF"/>
                         <outlet property="strawberrySwitch" destination="rWq-We-Inj" id="G9Y-0b-UjF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="721" y="0.0"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="yl2-sM-qoP">
-            <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
-                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="0.0" y="0.0"/>
+            <point key="canvasLocation" x="324" y="-26"/>
         </scene>
     </scenes>
     <resources>

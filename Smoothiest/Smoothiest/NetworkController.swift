@@ -9,7 +9,14 @@
 import Foundation
 
 class NetworkController: NSObject {
-    static func sendIngredientsToServer(ingredients: [Ingredient]) {
-        
+    static func getIngredientAmountsFromServer(ingredients: [Ingredient], smoothieAmountInOz: Float) -> [Float] {
+        var amounts = [Float]()
+        for _ in ingredients {
+            amounts.append(NetworkController.generateRandomAmount())
+        }
+        return amounts
+    }
+    static func generateRandomAmount() -> Float {
+        return Float(arc4random_uniform(1000))/Float(100)
     }
 }
