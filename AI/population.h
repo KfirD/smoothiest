@@ -1,18 +1,20 @@
-
 #ifndef POPULATION_H
 #define POPULATION_H
+
+#include <list>
 
 #include "network.h"
 
 using Networks = vector<Network>;
+using Rank = std::pair<Network, double>;
 
 class Population {
 public:
    Population(int num_inputs, int num_outputs, int size,
    double (*_feedback)(vector<double>&, vector<double>&));
 
-   Networks networks;
-   vector<int> fitnesses;
+   list<Rank> ranks;
+
    double (*feedback)(vector<double>&, vector<double>&);
 
    int get_size();
@@ -23,6 +25,8 @@ public:
    void restore_population(int target_size);
 
 private:
+   const int num_inputs;
+   const int num_outputs;
    Network &get_random_network();
    vector<double> generate_random_input();
 };

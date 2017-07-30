@@ -1,10 +1,17 @@
 #include <iostream>
+#include <vector>
 
 #include "network.h"
 #include "network_utils.h"
 #include "population.h"
 
 using namespace std;
+
+double dummy_feedback(vector<double> &inputs, vector<double>& outputs) {
+   int tot = 0;
+   for(int i: outputs) tot+=i;
+   return tot;
+}
 
 int main() {
    //input
@@ -37,6 +44,11 @@ int main() {
    for (double val : network_output) {
        cout << "Output: " << val << endl;
    }
+
+   //Test population
+
+   Population p(4,4, 10, &dummy_feedback);
+   p.run_generation();
 
    return 0;
 }

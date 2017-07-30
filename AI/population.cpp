@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <list>
 
 #include "network.h"
 #include "network_utils.h"
 #include "population.h"
+#include "utilities.h"
+
 
 using namespace std;
 
@@ -36,63 +39,83 @@ Network breed(const Network &nw1, const Network &nw2)
     return child;
 }
 
-//TODO --------------------------------------
-Network &Population::get_random_network() {
-   return networks.back();
-}
-
-int Population::get_size() {
-   return networks.size();
-}
-
-vector<double> Population::generate_random_input() {
-   return {1,2};
-}
-//--------------------------------------
-
 //Population()
 //Notice the constructor takes in a function point to a feedback
 //function
-Population::Population(int num_inputs, int num_outputs, int size,
-double (*_feedback)(vector<double>&, vector<double>&)) {
+Population::Population(int _num_inputs, int _num_outputs, int size,
+double (*_feedback)(vector<double>&, vector<double>&)):
+num_inputs(_num_inputs),
+num_outputs(_num_outputs)
+{
    feedback = _feedback;
+   cout << "hello\n";
    //populate population with single mutation networks
    for(int i = 0; i < size; i ++) {
-      networks.push_back(Network(num_inputs, num_outputs));
-      networks.back().mutate();
+      ranks.push_back(Rank (Network(_num_inputs, _num_outputs), 0));
+      Network &n = ranks.back().first;
+      n.mutate();
    }
 }
 
+vector<double> Population::generate_random_input() {
+   vector<double> random_inputs;
+   for(int i = 0; i < num_inputs; i++) {
+      random_inputs.push_back(random_p());
+   }
+   return random_inputs;
+}
+
+int Population::get_size() {
+   return ranks.size();
+}
+
+//TODO: optimize this. advancing thru lists takes O(N) time
+Network &Population::get_random_network() {
+   int rand = random_big()%ranks.size();
+   auto ptr = ranks.begin();
+   advance(ptr, rand);
+   return (*ptr).first;
+}
+
 void Population::reset_fitnesses() {
-   std::fill(fitnesses.begin(), fitnesses.end(), 0);
+   for(Rank &rank: ranks) {
+      rank.second = 0;
+   }
 }
 
 void Population::evaluate_fitness(int num_times) {
    for(int trial = 0; trial< num_times; trial++) {
-      int index = 0;
-      for(Network &network: networks) {
+      for(Rank &rank: ranks) {
+         Network &network = rank.first;
          vector<double> inputs = generate_random_input();
          vector<double> outputs = network.evaluate(inputs);
          double fitness = feedback(inputs, outputs);
-         fitnesses[index++] += fitness;
+         rank.second += fitness;
       }
    }
 }
 
 
 void Population::kill_inferior_population(double percentage) {
-   /*
-   typedef std::pair<int, int> ipair;
-   std::list<ipair> thelist;
-   thelist.sort([](const ipair & a, const ipair & b) { return a.first < b.first; });
-   */
+   //sort list by rank
+   ranks.sort([](const Rank & a, const Rank & b) {
+      return a.second < b.second;
+   });
+   //get number to kill
+   int kill_num = ranks.size()*percentage/100;
+   for(int i = 0; i < kill_num - 1; i++) {
+      Network &target = ranks.front().first;
+      ranks.pop_front();
+
+      //destruct network
+   }
 }
 
 void Population::restore_population(int target_size) {
    while(get_size() < target_size) {
       Network &n1 = get_random_network();
       Network &n2 = get_random_network();
-      networks.push_back(breed(n1,n2));
+      ranks.push_back(Rank (breed(n1,n2),0));
    }
 }
 
