@@ -5,6 +5,7 @@
 
 #include "activation.h"
 #include "network.h"
+#include "network_utils.h"
 
 //Neuron ---------------------------------------------------------------
 Neuron::Neuron(int id):
@@ -21,10 +22,22 @@ Neuron::Neuron(int id, double override_value):
 
 int Neuron::get_id() const { return id; }
 
-double Neuron::evaluate() const
+double Neuron::evaluate(const Neurons &neurons) const
 {
-    double value = 0;
+    std::vector<double> values;
+    for (int index : inputs) {
+        const Neuron &currentNeuron = neurons[index];
+        values.push_back(currentNeuron.evaluate(neurons));
+    }
+    return activation_functions[activation_id](values);
+}
 
+void Neuron::add_input(int new_in) {
+   inputs.push_back(new_in);
+}
+
+void Neuron::add_output(int new_out) {
+   outputs.push_back(new_out);
 }
 
 //Connection -----------------------------------------------------------

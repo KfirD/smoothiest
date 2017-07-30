@@ -6,11 +6,11 @@
 
 using namespace std;
 
-/*
-class Trigger_Function {
-   int id;
-};
-*/
+class Neuron;
+class Connection;
+
+using Neurons = vector<Neuron>;
+using Connections = vector<Connection>;
 
 /* Neuron */
 class Neuron {
@@ -23,11 +23,14 @@ public:
    Neuron(int id);
    Neuron(int id, double override_value);
    int get_id() const;
-   double evaluate() const;
+   double evaluate(const Neurons &neurons) const;
+   void add_input(int new_in);
+   void add_output(int new_out);
 private:
    double override_value;
    bool override_flag;
-   //Trigger_Function trigger;
+   vector<int> inputs;
+   vector<int> outputs;
 };
 
 
@@ -50,10 +53,5 @@ private:
    const int out;
    double weight;
 };
-
-
-using Neurons = vector<Neuron>;
-using Connections = vector<Connection>;
-
 
 #endif

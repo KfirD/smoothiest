@@ -48,6 +48,12 @@ Connections& Network::get_connections() {return connections;}
 //Notes: all connecting handled here
 bool Network::connect(int in, int out, double weight) {
    connections.push_back(Connection(in,out,weight));
+   Neuron &in_neuron = neurons[in];
+   Neuron &out_neuron = neurons[out];
+   in_neuron.add_output(out);
+   out_neuron.add_input(in);
+
+
    //TODO: check for redundant connections
    //TODO: check if actually suppose to be circular
    return true;
