@@ -15,6 +15,20 @@ class NetworkController: NSObject {
             amounts.append(NetworkController.generateRandomAmount())
         }
         return amounts
+        
+        let urlString = URL(string: "smoothiest.tech")
+        if let url = urlString {
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error ?? "Network call error was nil")
+                } else {
+                    if let usableData = data {
+                        print(usableData) //JSONSerialization
+                    }
+                }
+            }
+            task.resume()
+        }
     }
     static func generateRandomAmount() -> Float {
         return Float(arc4random_uniform(1000))/Float(100)

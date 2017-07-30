@@ -32,6 +32,11 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 break
             }
         } while chosenIngredientsView.text.characters.last != ","
+        if chosenIngredientsView.text.characters.count > 0 {
+            chosenIngredientsView.deleteBackward()
+        } else {
+            return
+        }
     }
 
     @IBAction func gimmeASmoothiePressed(_ sender: Any) {

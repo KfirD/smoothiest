@@ -16,6 +16,10 @@
 		0BC24D9E1F2D1E0A00522F35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BC24D9C1F2D1E0A00522F35 /* LaunchScreen.storyboard */; };
 		0BE19F511F2D426B0061E231 /* IngredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE19F501F2D426B0061E231 /* IngredientTableViewCell.swift */; };
 		0BE19F551F2D4C9D0061E231 /* SmoothieAmountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE19F541F2D4C9D0061E231 /* SmoothieAmountsViewController.swift */; };
+		0BE19F5B1F2D66EF0061E231 /* Bananas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE19F571F2D66EF0061E231 /* Bananas.jpg */; };
+		0BE19F5C1F2D66EF0061E231 /* Mangoes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE19F581F2D66EF0061E231 /* Mangoes.jpg */; };
+		0BE19F5D1F2D66EF0061E231 /* Pineapple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE19F591F2D66EF0061E231 /* Pineapple.jpg */; };
+		0BE19F5E1F2D66EF0061E231 /* Strawberries.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE19F5A1F2D66EF0061E231 /* Strawberries.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,10 @@
 		0BC24D9F1F2D1E0A00522F35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BE19F501F2D426B0061E231 /* IngredientTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCell.swift; sourceTree = "<group>"; };
 		0BE19F541F2D4C9D0061E231 /* SmoothieAmountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmoothieAmountsViewController.swift; sourceTree = "<group>"; };
+		0BE19F571F2D66EF0061E231 /* Bananas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Bananas.jpg; sourceTree = "<group>"; };
+		0BE19F581F2D66EF0061E231 /* Mangoes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Mangoes.jpg; sourceTree = "<group>"; };
+		0BE19F591F2D66EF0061E231 /* Pineapple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pineapple.jpg; sourceTree = "<group>"; };
+		0BE19F5A1F2D66EF0061E231 /* Strawberries.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Strawberries.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +102,22 @@
 		0BE19F531F2D44A30061E231 /* Visible Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				0BE19F561F2D66D90061E231 /* Resources */,
 				0BE19F4F1F2D419F0061E231 /* UIViewControllers */,
 				0BE19F501F2D426B0061E231 /* IngredientTableViewCell.swift */,
 			);
 			name = "Visible Stuff";
+			sourceTree = "<group>";
+		};
+		0BE19F561F2D66D90061E231 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0BE19F571F2D66EF0061E231 /* Bananas.jpg */,
+				0BE19F581F2D66EF0061E231 /* Mangoes.jpg */,
+				0BE19F591F2D66EF0061E231 /* Pineapple.jpg */,
+				0BE19F5A1F2D66EF0061E231 /* Strawberries.jpg */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,9 +180,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BE19F5D1F2D66EF0061E231 /* Pineapple.jpg in Resources */,
 				0BC24D9E1F2D1E0A00522F35 /* LaunchScreen.storyboard in Resources */,
 				0BC24D9B1F2D1E0A00522F35 /* Assets.xcassets in Resources */,
+				0BE19F5B1F2D66EF0061E231 /* Bananas.jpg in Resources */,
 				0BC24D991F2D1E0A00522F35 /* Main.storyboard in Resources */,
+				0BE19F5C1F2D66EF0061E231 /* Mangoes.jpg in Resources */,
+				0BE19F5E1F2D66EF0061E231 /* Strawberries.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
