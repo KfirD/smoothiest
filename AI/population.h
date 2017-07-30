@@ -21,14 +21,15 @@ public:
    void run_generation();
    void reset_fitnesses();
    void evaluate_fitness(int num_times);
+   double get_network_fitness(Network &network, vector<double> &inputs, int trials);
    void kill_inferior_population(double percentage);
    void restore_population(int target_size);
-
+   Network get_best_network();
+   vector<double> generate_random_input();
 private:
    const int num_inputs;
    const int num_outputs;
    Network &get_random_network();
-   vector<double> generate_random_input();
 };
 
 Network breed(const Network &network1, const Network &network2);

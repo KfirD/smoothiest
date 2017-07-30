@@ -11,13 +11,13 @@
 //Neuron ---------------------------------------------------------------
 Neuron::Neuron(int id):
     id(id),
-    activation_id(8), // std::rand() % activation_function_count
+    activation_id(std::rand() % (activation_function_count - 2) + 2), // std::rand() % activation_function_count
     override_value(-1),
     override_flag(false) {}
 
 Neuron::Neuron(int id, double override_value):
     id(id),
-    activation_id(8), // std::rand() % activation_function_count
+    activation_id(std::rand() % (activation_function_count - 2) + 2), // std::rand() % activation_function_count
     override_value(override_value),
     override_flag(true) {}
 
@@ -43,12 +43,12 @@ double Neuron::evaluate(const Neurons &neurons,
         double weight = currentConnection.get_weight();
         double value = currentNeuron.evaluate(neurons, connections, connection_map);
 
-        // cout << "CURRENT NEURON # " << currentNeuron.id << endl;
-        // cout << currentConnection << endl;
-        // cout << "cantor: " << cantor_val << endl;
-        // cout << "weight: " << weight << endl;
-        // cout << "value: " << value << endl;
-        // cout << "end value: " << weight * value << endl;
+        cout << "CURRENT NEURON # " << currentNeuron.id << endl;
+        cout << currentConnection << endl;
+        cout << "cantor: " << cantor_val << endl;
+        cout << "weight: " << weight << endl;
+        cout << "value: " << value << endl;
+        cout << "end value: " << weight * value << endl;
 
         values.push_back(weight * value);
     }

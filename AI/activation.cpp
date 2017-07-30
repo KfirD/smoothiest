@@ -43,6 +43,7 @@ double gaussian(double num)
 }
 
 /* Activation functions */
+double input_activation(std::vector<double> &inputs)      { return -1; }
 double output_activation(std::vector<double> &inputs)     { return add_activation(inputs); }
 double sigmoid_activation(std::vector<double> &inputs)    { return sigmoid(sum_ints(inputs)); }
 double tanh_activation(std::vector<double> &inputs)       { return std::tanh(sum_ints(inputs)); }

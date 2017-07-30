@@ -14,6 +14,7 @@ double relu(double num);
 double gaussian(double num);
 
 /* Activation functions */
+double input_activation(std::vector<double> &inputs);
 double output_activation(std::vector<double> &inputs);
 double sigmoid_activation(std::vector<double> &inputs);
 double tanh_activation(std::vector<double> &inputs);
@@ -26,8 +27,9 @@ double add_activation(std::vector<double> &inputs);
 double square_activation(std::vector<double> &inputs);
 
 /* Array of activation functions for efficient access */
-const int activation_function_count = 10;
+const int activation_function_count = 11;
 double (*const activation_functions[])(std::vector<double> &) = {
+    input_activation,
     output_activation,
     sigmoid_activation,
     tanh_activation,
@@ -41,6 +43,7 @@ double (*const activation_functions[])(std::vector<double> &) = {
 };
 
 const std::string activation_function_names[] = {
+    "input",
     "output",
     "sigmoid",
     "tanh",

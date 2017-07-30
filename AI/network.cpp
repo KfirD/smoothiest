@@ -16,12 +16,16 @@ Network::Network(int num_in, int num_out):
     num_in(num_in), num_out(num_out)
 {
    //initialize input and output neurons
-   for(int i = 0; i < num_in; i++) {
-      neurons.push_back(Neuron(i));
-   }
-   for(int i = num_in; i < num_in + num_out; i++) {
-      neurons.push_back(Neuron(i));
-   }
+    for(int i = 0; i < num_in; i++) {
+        Neuron input(i);
+        input.set_activation_id(0);
+        neurons.push_back(input);
+    }
+    for(int i = num_in; i < num_in + num_out; i++) {
+        Neuron output(i);
+        output.set_activation_id(1);
+        neurons.push_back(output);
+    }
    neuron_count = num_in + num_out;
 
    for(int i = 0; i < num_in; i++) {
@@ -84,7 +88,6 @@ std::vector<double> Network::evaluate(const std::vector<double> &inputs)
     std::vector<double> outputs;
     for (int i = num_in; i < (num_in + num_out); i++) {
         Neuron &currentNeuron = neurons[i];
-        currentNeuron.set_activation_id(0);
         outputs.push_back(currentNeuron.evaluate(neurons, connections, connection_map));
     }
     return outputs;
@@ -136,7 +139,7 @@ void Network::mutate() {
 
    double rand = random_p();
    if(rand <= p_new_node) {
-      cout << "Mutation: New Node as added\n";
+    //   cout << "Mutation: New Node as added\n";
       // add a new node
       Connection c(get_random_connection());
       c.disable();
@@ -146,7 +149,7 @@ void Network::mutate() {
       connect(new_neuron_id, c.get_out(), c.get_weight());
    }
    else if(p_new_node < rand && rand <= p_new_node + p_new_con) {
-      cout << "Mutation: Nothing Happened\n";
+    //   cout << "Mutation: Nothing Happened\n";
       // add a new Connection TODO
       /*
       double default_weight = 0.5; //TODO: what should it be?
@@ -155,7 +158,7 @@ void Network::mutate() {
       */
    }
    else {
-      cout << "Mutation: Weight was changed\n";
+    //   cout << "Mutation: Weight was changed\n";
       // change weight of a connection
       Connection &c = get_random_connection();
       double rand = random_p();

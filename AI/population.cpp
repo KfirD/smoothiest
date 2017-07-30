@@ -1,6 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <list>
+#include <thread>
+#include <vector>
 
 #include "network.h"
 #include "network_utils.h"
@@ -118,21 +119,33 @@ void Population::reset_fitnesses() {
 }
 
 void Population::evaluate_fitness(int num_times) {
-   for(int trial = 0; trial< num_times; trial++) {
-      for(Rank &rank: ranks) {
-         Network &network = rank.first;
-         vector<double> inputs = generate_random_input();
-         vector<double> outputs = network.evaluate(inputs);
-         double fitness = feedback(inputs, outputs);
-         rank.second += fitness;
-      }
-   }
+    // std::vector<std::thread> threads;
+    // for (int i = 0; i < num_times; i++) {
+    //     threads.push_back()
+    // }
+
+    for (Rank &rank : ranks) {
+        Network &network = rank.first;
+        vector<double> inputs = generate_random_input();
+
+        rank.second = get_network_fitness(network, inputs, num_times);
+    }
+}
+
+double Population::get_network_fitness(Network &network, vector<double> &inputs, int trials)
+{
+    double fitness = 0;
+    for (int i = 0; i < trials; i++) {
+        vector<double> outputs = network.evaluate(inputs);
+        fitness += (feedback(inputs, outputs) - std::pow(network.get_connections().size(), 1.2));
+    }
+    return fitness;
 }
 
 
 void Population::kill_inferior_population(double percentage) {
    //sort list by rank
-   ranks.sort([](const Rank & a, const Rank & b) {
+   ranks.sort([](const Rank &a, const Rank &b) {
       return a.second < b.second;
    });
    //get number to kill
@@ -151,6 +164,14 @@ void Population::restore_population(int target_size) {
         Network &n2 = get_random_network();
         ranks.push_back(Rank(breed(n1, n2), 0));
     }
+}
+
+Network Population::get_best_network()
+{
+    ranks.sort([](const Rank &a, const Rank &b) {
+        return b.second < a.second;
+    });
+    return ranks.front().first;
 }
 
 void Population::run_generation() {

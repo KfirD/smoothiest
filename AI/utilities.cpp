@@ -9,19 +9,22 @@ using namespace std;
 
 double random_p() {
    static bool first = true;
-   if(first) {
+   if (first) {
       struct timespec ts;
       clock_gettime(CLOCK_MONOTONIC, &ts);
       srand((time_t)ts.tv_nsec);
+      first = false;
    }
-   return ((double) rand() / (RAND_MAX));
+   return ((double) rand() / RAND_MAX);
 }
+
 int random_big() {
    static bool first = true;
-   if(first) {
+   if (first) {
       struct timespec ts;
       clock_gettime(CLOCK_MONOTONIC, &ts);
       srand((time_t)ts.tv_nsec);
+      first = false;
    }
    return rand();
 }

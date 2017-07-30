@@ -7,7 +7,7 @@
 class Trainer {
 public:
     Trainer();
-    void train();
+    void train(int generations);
 private:
     Population pop;
 };
