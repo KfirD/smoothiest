@@ -10,6 +10,7 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
+    @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var chosenIngredientsView: UITextView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var ingredientsSearchBar: UISearchBar!
@@ -25,6 +26,11 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         ingredientsTableView.delegate = self
         ingredientsSearchBar.delegate = self
         filteredPossibleIngredients = possibleIngredients
+        amountLabel.text = "You're making: \(smoothieAmount) oz"
+    }
+    
+    @IBAction func backPressed(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func deletePressed(_ sender: Any) {
@@ -143,5 +149,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         (segue.destination as! SmoothieAmountsViewController).results = results
+        (segue.destination as! SmoothieAmountsViewController).smoothieAmount = smoothieAmount
      }
 }

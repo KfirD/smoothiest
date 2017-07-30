@@ -12,6 +12,7 @@ class SmoothieAmountsViewController: UIViewController, UITableViewDataSource, UI
     
     @IBOutlet weak var resultsTableView: UITableView!
     
+    var smoothieAmount = Float()
     var results = [String:String]()
     var resultsKeysArray = [String]()
     let possibleIngredients = [Ingredient("Strawberries", image: UIImage(named: "Strawberries.jpg")!),Ingredient("Mangoes", image: UIImage(named: "Mangoes.jpg")!), Ingredient("Bananas", image: UIImage(named: "Bananas.jpg")!), Ingredient("Pineapple", image: UIImage(named: "Pineapples.jpg")!)]
@@ -39,11 +40,16 @@ class SmoothieAmountsViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count
+        return results.count+1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath) as! ResultTableViewCell
+        guard resultsKeysArray.count > indexPath.row else { // Set up Total cell.
+            cell.nameLabel.text = "Total:"
+            cell.amountLabel.text = "\(smoothieAmount) oz"
+            return cell
+        }
         
         for ingredient in possibleIngredients {
             if resultsKeysArray[indexPath.row] == ingredient.name {

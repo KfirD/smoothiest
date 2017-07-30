@@ -17,7 +17,11 @@ class IntroViewController: UIViewController {
         super.viewDidLoad()
         UIView.animate(withDuration: 1, animations: {
             self.smoothieView.alpha = 0
-        }, completion: nil)
+        }, completion: { finished in
+            if finished {
+                self.amountField.becomeFirstResponder()
+            }
+        })
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
