@@ -29,7 +29,7 @@ Network::Network(int num_in, int num_out):
    neuron_count = num_in + num_out;
 
    for(int i = 0; i < num_in; i++) {
-      for(int j = 0; j < num_out; j++) {
+      for(int j = num_in; j < num_out+num_in; j++) {
          connect(i,j,random_p());
       }
    }
