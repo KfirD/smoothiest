@@ -8,8 +8,8 @@
 using namespace std;
 
 double dummy_feedback(vector<double> &inputs, vector<double>& outputs) {
-   int tot = 0;
-   for(int i: outputs) tot+=i;
+   double tot = 0;
+   for(double i: outputs) tot += i;
    return tot;
 }
 
@@ -56,7 +56,7 @@ int main() {
    //Test population
    cout << endl << "Evaluated network:" << endl;
    cout << n3 << endl;
-   
+
    Population p(4,4, 10, &dummy_feedback);
    p.run_generation();
 

@@ -17,9 +17,9 @@ void breed_in_connection(Network &child, const Connection &parentCon)
     int in = parentCon.get_in();
     int out = parentCon.get_out();
 
-    cout << "out: " << out << endl;
+    // cout << "out: " << out << endl;
 
-    if (out > 3000 || out < 3000) {
+    if (out > 3000 || out < -3000) {
         cout << "##################### WARNING" << endl;
         cout << parentCon << endl;
     }
@@ -75,14 +75,14 @@ Network breed(const Network &nw1, const Network &nw2)
 //function
 Population::Population(int _num_inputs, int _num_outputs, int size,
 double (*_feedback)(vector<double>&, vector<double>&)):
-num_inputs(_num_inputs),
-num_outputs(_num_outputs)
+    num_inputs(_num_inputs),
+    num_outputs(_num_outputs)
 {
    feedback = _feedback;
    cout << "hello\n";
    //populate population with single mutation networks
    for(int i = 0; i < size; i ++) {
-      ranks.push_back(Rank (Network(_num_inputs, _num_outputs), 0));
+      ranks.push_back(Rank(Network(_num_inputs, _num_outputs), 0));
       Network &n = ranks.back().first;
       n.mutate();
    }
@@ -102,9 +102,9 @@ int Population::get_size() {
 
 //TODO: optimize this. advancing thru lists takes O(N) time
 Network &Population::get_random_network() {
-   int rand = random_big()%ranks.size();
+   int random = random_big() % get_size();
    auto ptr = ranks.begin();
-   advance(ptr, rand);
+   advance(ptr, random);
    return (*ptr).first;
 }
 
@@ -143,16 +143,16 @@ void Population::kill_inferior_population(double percentage) {
 }
 
 void Population::restore_population(int target_size) {
-   while(get_size() < target_size) {
-      Network &n1 = get_random_network();
-      Network &n2 = get_random_network();
-      ranks.push_back(Rank (breed(n1,n2),0));
-   }
+    while(get_size() < target_size) {
+        Network &n1 = get_random_network();
+        Network &n2 = get_random_network();
+        ranks.push_back(Rank(breed(n1, n2), 0));
+    }
 }
 
 void Population::run_generation() {
-   reset_fitnesses();
-   evaluate_fitness(100); //evaulates 100 times
-   kill_inferior_population(80); //kills bottom 80%
-   restore_population(100);
+    reset_fitnesses();
+    evaluate_fitness(100); //evaulates 100 times
+    kill_inferior_population(80); //kills bottom 80%
+    restore_population(100);
 }
