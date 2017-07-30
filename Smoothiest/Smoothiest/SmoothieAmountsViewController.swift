@@ -56,9 +56,13 @@ class SmoothieAmountsViewController: UIViewController, UITableViewDataSource, UI
                 cell.ingredient = ingredient
             }
         }
+        var amount = results[resultsKeysArray[indexPath.row]] ?? "Error"
+        if cell.ingredient?.name == "Bananas" {
+            amount = String(Float(amount)! - Float(0.05)) //FIXME: Remove if we change servers.
+        }
         cell.nameLabel.text = cell.ingredient?.name
         cell.imageView?.image = cell.ingredient?.image
-        cell.amountLabel.text = "\(results[resultsKeysArray[indexPath.row]] ?? "Error") oz"
+        cell.amountLabel.text = "\(amount) oz"
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
         
