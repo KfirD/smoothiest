@@ -1,8 +1,31 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <stdlib.h>
+#include <time.h>
 
 #include "network.h"
+
+using namespace std;
+
+double random_p() {
+   static bool first = true;
+   if(first) {
+      struct timespec ts;
+      clock_gettime(CLOCK_MONOTONIC, &ts);
+      srand((time_t)ts.tv_nsec);
+   }
+   return ((double) rand() / (RAND_MAX));
+}
+int random_big() {
+   static bool first = true;
+   if(first) {
+      struct timespec ts;
+      clock_gettime(CLOCK_MONOTONIC, &ts);
+      srand((time_t)ts.tv_nsec);
+   }
+   return rand();
+}
 
 //Network()
 //Notes: constructor
@@ -34,14 +57,14 @@ bool Network::connect(int in, int out, double weight) {
 //get_random_neuron();
 //Output: Random neuron in the network
 Neuron &Network::get_random_neuron() {
-   int rand = random()%neurons.size();
+   int rand = random_big()%neurons.size();
    return neurons[rand];
 }
 
 //get_random_connection();
 //Output: Random connection in the network
 Connection &Network::get_random_connection() {
-   int rand = random()%connections.size();
+   int rand = random_big()%connections.size();
    return connections[rand];
 }
 
@@ -71,8 +94,9 @@ void Network::mutate() {
    double p_new_con  = 0.33;
    double p_change_weight = 0.33;
 
-   double rand = random();
+   double rand = random_p();
    if(rand <= p_new_node) {
+      cout << "Mutation: New Node as added\n";
       // add a new node
       Connection &c = get_random_connection();
       c.disable();
@@ -82,6 +106,7 @@ void Network::mutate() {
       connect(new_neuron_id, c.get_out(), c.get_weight());
    }
    else if(p_new_node < rand && rand <= p_new_node + p_new_con) {
+      cout << "Mutation: Nothing Happened\n";
       // add a new Connection TODO
       /*
       double default_weight = 0.5; //TODO: what should it be?
@@ -90,9 +115,10 @@ void Network::mutate() {
       */
    }
    else {
+      cout << "Mutation: Weight was changed\n";
       // change weight of a connection
       Connection &c = get_random_connection();
-      double rand = random();
+      double rand = random_p();
       double w = c.get_weight();
       //50-50 chance of increasing or decreasing the weight
       //TODO: figure out correct amount to change weights
