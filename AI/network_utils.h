@@ -12,8 +12,13 @@ class Trigger_Function {
 };
 */
 
+/* Neuron */
 class Neuron {
 public:
+    // Data
+    int activation_id;
+
+    // Methods
    Neuron(int id);
    int get_id() const;
 private:

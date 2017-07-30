@@ -1,4 +1,4 @@
-MODULES = network network_utils population
+MODULES = network network_utils population activation
 HDRSRC  = ${MODULES:=.h}
 CPPSRC  = ${MODULES:=.cpp} main.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}

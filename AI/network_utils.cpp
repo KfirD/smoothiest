@@ -1,6 +1,9 @@
 
+#include <cmath>
 #include <iostream>
+#include <vector>
 
+#include "activation.h"
 #include "network.h"
 
 //Neuron ---------------------------------------------------------------
