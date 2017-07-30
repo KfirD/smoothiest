@@ -50,6 +50,11 @@ bool Network::connect(int in, int out, double weight) {
 
     connection_map.insert({new_connection.get_id(), connections.size() - 1});
 
+    cout << "##########: connect()" << endl;
+    cout << "in: " << in << endl;
+    cout << "out: " << out << endl;
+    cout << "size: " << neurons.size() << endl;
+
     Neuron &in_neuron = neurons[in];
     Neuron &out_neuron = neurons[out];
     in_neuron.add_output(out);
