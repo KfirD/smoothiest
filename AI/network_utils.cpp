@@ -7,8 +7,25 @@
 #include "network.h"
 
 //Neuron ---------------------------------------------------------------
-Neuron::Neuron(int id): id(id) {}
+Neuron::Neuron(int id):
+    id(id),
+    activation_id(std::rand() % activation_function_count),
+    override_value(-1),
+    override_flag(false) {}
+
+Neuron::Neuron(int id, double override_value):
+    id(id),
+    activation_id(std::rand() % activation_function_count),
+    override_value(override_value),
+    override_flag(true) {}
+
 int Neuron::get_id() const { return id; }
+
+double Neuron::evaluate() const
+{
+    double value = 0;
+
+}
 
 //Connection -----------------------------------------------------------
 //bijective function (int,int)->int

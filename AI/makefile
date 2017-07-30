@@ -13,7 +13,7 @@ run: ${EXECBIN}
 
 ${EXECBIN} : ${OBJECTS}
 	${CPP} -o ${EXECBIN} ${OBJECTS}
-	@rm *.o
+	#@rm *.o
 
 ${OBJECTS} : ${CPPSRC}
 	${CPP} -c ${CPPSRC}

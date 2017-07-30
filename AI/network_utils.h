@@ -16,13 +16,17 @@ class Trigger_Function {
 class Neuron {
 public:
     // Data
+    const int id;
     int activation_id;
 
     // Methods
    Neuron(int id);
+   Neuron(int id, double override_value);
    int get_id() const;
+   double evaluate() const;
 private:
-   int id;
+   double override_value;
+   bool override_flag;
    //Trigger_Function trigger;
 };
 
