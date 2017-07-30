@@ -15,6 +15,7 @@ public:
    const Connections& get_connections() const;
    Connections& get_connections();
    bool connect(int in, int out, double weight);
+   vector<double> evaluate(vector<double> inputs);
 
    Connection &get_random_connection();
    Neuron &get_random_neuron();

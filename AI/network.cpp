@@ -27,6 +27,10 @@ int random_big() {
    return rand();
 }
 
+vector<double> Network::evaluate(vector<double> inputs) {
+   return inputs;
+}
+
 //Network()
 //Notes: constructor
 Network::Network(int num_in, int num_out):
