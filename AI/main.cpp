@@ -3,15 +3,9 @@
 
 #include "network.h"
 #include "network_utils.h"
-#include "population.h"
+#include "trainer.h"
 
 using namespace std;
-
-double dummy_feedback(vector<double> &inputs, vector<double>& outputs) {
-   double tot = 0;
-   for(double i: outputs) tot += i;
-   return tot;
-}
 
 int main() {
    //input
@@ -57,8 +51,8 @@ int main() {
    cout << endl << "Evaluated network:" << endl;
    cout << n3 << endl;
 
-   Population p(4,4, 10, &dummy_feedback);
-   p.run_generation();
+   Trainer t;
+   p.train();
 
    return 0;
 }

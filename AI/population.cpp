@@ -76,9 +76,9 @@ Network breed(const Network &nw1, const Network &nw2)
 Population::Population(int _num_inputs, int _num_outputs, int size,
 double (*_feedback)(vector<double>&, vector<double>&)):
     num_inputs(_num_inputs),
-    num_outputs(_num_outputs)
+    num_outputs(_num_outputs),
+    feedback(_feedback)
 {
-   feedback = _feedback;
    cout << "hello\n";
    //populate population with single mutation networks
    for(int i = 0; i < size; i ++) {
