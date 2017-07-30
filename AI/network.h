@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include "network_utils.h"
 
@@ -10,19 +11,26 @@ using namespace std;
 
 class Network {
 public:
-   Network(Neurons& input, Neurons& output);
+   Network(int num_in, int num_out);
+   const Connections& get_connections() const;
    Connections& get_connections();
-   bool connect(const Neuron &src,const Neuron &dst, double weight);
+   bool connect(int in, int out, double weight);
 
+   Connection &get_random_connection();
+   Neuron &get_random_neuron();
+   //Connection get_random_unconnection();
+
+   int add_new_neuron();
+   void mutate();
 private:
-   Neurons inner_neurons;
+   const int num_in;
+   const int num_out;
+   int neuron_count;
+   Neurons neurons;
    Connections connections;
-
-   Neurons& input;
-   Neurons& output;
-
+   std::unordered_map<int, Connection &> connection_map;
 };
 
-std::ostream &operator<<(std::ostream &out, Network &coord);
+std::ostream &operator<<(std::ostream &out, const Network &concs);
 
 #endif

@@ -6,40 +6,51 @@
 
 using namespace std;
 
-/*
-class Trigger_Function {
-   int id;
-};
-*/
+class Neuron;
+class Connection;
 
+using Neurons = vector<Neuron>;
+using Connections = vector<Connection>;
+
+/* Neuron */
 class Neuron {
 public:
+    // Data
+    const int id;
+    int activation_id;
+
+    // Methods
    Neuron(int id);
-   int get_id();
+   Neuron(int id, double override_value);
+   int get_id() const;
+   double evaluate(const Neurons &neurons, std::unordered_map<int, Connection &> conn_map) const;
+   void add_input(int new_in);
+   void add_output(int new_out);
 private:
-   int id;
-   //Trigger_Function trigger;
+   double override_value;
+   bool override_flag;
+   vector<int> inputs;
+   vector<int> outputs;
 };
 
 
 class Connection {
 public:
-   Connection(Neuron &src, Neuron &dst, double weight);
-   int get_id();
-   Neuron& get_src();
-   Neuron& get_dst();
-   double get_weight();
+   Connection(int in, int out, double weight);
+   int get_id() const;
+   bool enabled;
+   int get_in() const;
+   int get_out() const;
+   double get_weight() const;
 
+   void set_weight(double new_weight);
+   void enable();
+   void disable();
 private:
-   int id;
-   Neuron& src;
-   Neuron& dst;
+   const int id;
+   const int in;
+   const int out;
    double weight;
 };
-
-
-using Neurons = vector<Neuron>;
-using Connections = vector<Connection>;
-
 
 #endif
