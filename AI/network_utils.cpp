@@ -25,5 +25,9 @@ int Connection::get_in() const {return in;}
 int Connection::get_out() const {return out;}
 double Connection::get_weight() const {return weight;}
 
+void Connection::set_weight(double new_weight) {weight = new_weight;}
+void Connection::enable() {enabled = true;}
+void Connection::disable() {enabled = false;}
+
 
 //Trigger Function -----------------------------------------------------

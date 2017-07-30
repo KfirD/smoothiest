@@ -31,6 +31,10 @@ public:
    int get_out() const;
    double get_weight() const;
 
+   void set_weight(double new_weight);
+   void enable();
+   void disable();
+
 private:
    const int id;
    const int in;
