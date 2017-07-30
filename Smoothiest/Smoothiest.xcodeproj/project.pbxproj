@@ -11,6 +11,9 @@
 		0B3EDBD91F2D254C00156D3E /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3EDBD81F2D254C00156D3E /* Ingredient.swift */; };
 		0B48D0EE1F2D8DCF00C22082 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B48D0ED1F2D8DCF00C22082 /* ResultTableViewCell.swift */; };
 		0B48D0F11F2D971000C22082 /* Pineapples.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B48D0F01F2D971000C22082 /* Pineapples.jpg */; };
+		0B52C0F01F2DAA5800DE8F2A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B52C0EF1F2DAA5800DE8F2A /* Extensions.swift */; };
+		0B52C0F21F2DB03000DE8F2A /* smoothie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52C0F11F2DB03000DE8F2A /* smoothie.jpg */; };
+		0B52C0F41F2DB28E00DE8F2A /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B52C0F31F2DB28E00DE8F2A /* IntroViewController.swift */; };
 		0BC24D921F2D1E0A00522F35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC24D911F2D1E0A00522F35 /* AppDelegate.swift */; };
 		0BC24D941F2D1E0A00522F35 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC24D931F2D1E0A00522F35 /* MainViewController.swift */; };
 		0BC24D991F2D1E0A00522F35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BC24D971F2D1E0A00522F35 /* Main.storyboard */; };
@@ -28,6 +31,9 @@
 		0B3EDBD81F2D254C00156D3E /* Ingredient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		0B48D0ED1F2D8DCF00C22082 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		0B48D0F01F2D971000C22082 /* Pineapples.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pineapples.jpg; sourceTree = "<group>"; };
+		0B52C0EF1F2DAA5800DE8F2A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0B52C0F11F2DB03000DE8F2A /* smoothie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = smoothie.jpg; sourceTree = "<group>"; };
+		0B52C0F31F2DB28E00DE8F2A /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		0BC24D8E1F2D1E0A00522F35 /* Smoothiest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smoothiest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BC24D911F2D1E0A00522F35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BC24D931F2D1E0A00522F35 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +99,7 @@
 		0BE19F4F1F2D419F0061E231 /* UIViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0B52C0F31F2DB28E00DE8F2A /* IntroViewController.swift */,
 				0BC24D931F2D1E0A00522F35 /* MainViewController.swift */,
 				0BE19F541F2D4C9D0061E231 /* SmoothieAmountsViewController.swift */,
 			);
@@ -105,6 +112,7 @@
 				0BC24D911F2D1E0A00522F35 /* AppDelegate.swift */,
 				0B3EDBD61F2D23D300156D3E /* NetworkController.swift */,
 				0B3EDBD81F2D254C00156D3E /* Ingredient.swift */,
+				0B52C0EF1F2DAA5800DE8F2A /* Extensions.swift */,
 			);
 			name = "Invisible Stuff";
 			sourceTree = "<group>";
@@ -123,6 +131,7 @@
 		0BE19F561F2D66D90061E231 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0B52C0F11F2DB03000DE8F2A /* smoothie.jpg */,
 				0BE19F571F2D66EF0061E231 /* Bananas.jpg */,
 				0BE19F581F2D66EF0061E231 /* Mangoes.jpg */,
 				0BE19F5A1F2D66EF0061E231 /* Strawberries.jpg */,
@@ -163,7 +172,7 @@
 				TargetAttributes = {
 					0BC24D8D1F2D1E0A00522F35 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = G7E53UAZGK;
+						DevelopmentTeam = Y25S8246R3;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -194,6 +203,7 @@
 				0BC24D9E1F2D1E0A00522F35 /* LaunchScreen.storyboard in Resources */,
 				0B48D0F11F2D971000C22082 /* Pineapples.jpg in Resources */,
 				0BC24D9B1F2D1E0A00522F35 /* Assets.xcassets in Resources */,
+				0B52C0F21F2DB03000DE8F2A /* smoothie.jpg in Resources */,
 				0BE19F5B1F2D66EF0061E231 /* Bananas.jpg in Resources */,
 				0BC24D991F2D1E0A00522F35 /* Main.storyboard in Resources */,
 				0BE19F5C1F2D66EF0061E231 /* Mangoes.jpg in Resources */,
@@ -208,9 +218,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B52C0F41F2DB28E00DE8F2A /* IntroViewController.swift in Sources */,
 				0BE19F511F2D426B0061E231 /* IngredientTableViewCell.swift in Sources */,
 				0B3EDBD71F2D23D300156D3E /* NetworkController.swift in Sources */,
 				0B48D0EE1F2D8DCF00C22082 /* ResultTableViewCell.swift in Sources */,
+				0B52C0F01F2DAA5800DE8F2A /* Extensions.swift in Sources */,
 				0BE19F551F2D4C9D0061E231 /* SmoothieAmountsViewController.swift in Sources */,
 				0B3EDBD91F2D254C00156D3E /* Ingredient.swift in Sources */,
 				0BC24D921F2D1E0A00522F35 /* AppDelegate.swift in Sources */,
@@ -338,11 +350,12 @@
 		0BC24DA31F2D1E0A00522F35 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G7E53UAZGK;
+				DEVELOPMENT_TEAM = Y25S8246R3;
 				INFOPLIST_FILE = Smoothiest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kpapakipos.Smoothiest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kpapakipos.Smoothiest2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -351,11 +364,12 @@
 		0BC24DA41F2D1E0A00522F35 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G7E53UAZGK;
+				DEVELOPMENT_TEAM = Y25S8246R3;
 				INFOPLIST_FILE = Smoothiest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kpapakipos.Smoothiest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kpapakipos.Smoothiest2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

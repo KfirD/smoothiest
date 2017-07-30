@@ -28,7 +28,6 @@ class NetworkController: NSObject {
                         } catch {
                             print(error)
                         }
-                        print() //JSONSerialization
                     }
                 }
             }
