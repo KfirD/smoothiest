@@ -18,8 +18,7 @@ num_in(num_in), num_out(num_out) {
    neuron_count = num_in + num_out;
 }
 
-//get_connections()
-//Output: reference to connections of the network
+const Connections& Network::get_connections() const {return connections;}
 Connections& Network::get_connections() {return connections;}
 
 //connect()
@@ -104,27 +103,10 @@ void Network::mutate() {
 }
 
 //printing
-std::ostream &operator<<(std::ostream& out, Network &concs) {
+std::ostream &operator<<(std::ostream& out, const Network &concs) {
     for(Connection con: concs.get_connections()) {
       out << con.get_id() << ": " << con.get_in() << "->";
-      out << con.get_out() << " | ";
+      out << con.get_out() << std::endl;
     }
     return out;
  }
-
-/*
-int Coordinate::getX() const { return x; }
-int Coordinate::getY() const { return y; }
-
-void Coordinate::setX(int x) { Coordinate::x = x; }
-void Coordinate::setY(int y) { Coordinate::y = y; }
-*/
-/*
-Coordinate &Coordinate::Neuron=(const Coordinate &coord)
-{
-    setX(coord.x);
-    setY(coord.y);
-
-    return *this;
-}
-*/
