@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 
 using namespace std;
 
@@ -44,6 +45,11 @@ private:
     bool override_flag;
     vector<int> inputs;
     vector<int> outputs;
+
+    double evaluateR(const Neurons &neurons,
+        const Connections &connections,
+        const std::unordered_map<int, int> &conn_map,
+        std::unordered_set<int> &visited_neurons) const;
 };
 
 std::ostream &operator<<(std::ostream &out, const Neuron &neuron);

@@ -123,9 +123,13 @@ void Population::evaluate_fitness(int num_times) {
     // }
 
     for (Rank &rank : ranks) {
+        cout << "Get rank network" << endl;
         Network &network = rank.first;
+
+        cout << "Generate random input" << endl;
         vector<double> inputs = generate_random_input();
 
+        cout << "Get network fitness" << endl;
         rank.second = get_network_fitness(network, inputs, num_times);
     }
 }
@@ -173,8 +177,12 @@ Network Population::get_best_network()
 }
 
 void Population::run_generation() {
+    cout << "reset fitness" << endl;
     reset_fitnesses();
+    cout << "evaluate fitness" << endl;
     evaluate_fitness(100); //evaulates 100 times
+    cout << "kill inferior population" << endl;
     kill_inferior_population(80); //kills bottom 80%
+    cout << "restore population" << endl;
     restore_population(100);
 }
