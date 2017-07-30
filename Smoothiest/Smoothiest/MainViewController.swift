@@ -11,23 +11,42 @@ import UIKit
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var amountField: UITextField!
+    @IBOutlet weak var chosenIngredientsView: UITextView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var ingredientsSearchBar: UISearchBar!
     
-    let possibleIngredients = [Ingredient("Strawberries"),Ingredient("Mangoes")]
+    let possibleIngredients = [Ingredient("Strawberries", image: UIImage()),Ingredient("Mangoes", image: UIImage())]
+    var chosenIngredients = [Ingredient]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ingredientsTableView.dataSource = self
+        ingredientsTableView.delegate = self
+    }
+    
+    @IBAction func deletePressed(_ sender: Any) {
+        repeat {
+            if chosenIngredientsView.text.characters.count > 0 {
+                chosenIngredientsView.deleteBackward()
+            } else {
+                break
+            }
+        } while chosenIngredientsView.text.characters.last != ","
     }
 
     @IBAction func gimmeASmoothiePressed(_ sender: Any) {
         var ingredients = [Ingredient]()
         let smoothieAmount = Float(amountField.text!)
-        //TODO: Add required ingredients to ingredients array
+        for chosenIngredient in chosenIngredients {
+            ingredients.append(chosenIngredient)
+        }
+        
         guard userErrorCheck(ingredients: ingredients, smoothieAmount: smoothieAmount) == true else {
             return
         }
-        print(NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount!))
+        let ingredientAmountsResult = NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount!)
+        print(ingredientAmountsResult)
+        performSegue(withIdentifier: "displaySmoothieResultsSegue", sender: nil)
     }
     
     func userErrorCheck(ingredients: [Ingredient], smoothieAmount: Float?) -> Bool {
@@ -58,10 +77,31 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as!IngredientTableViewCell
         
-        // Configure the cell...
+        cell.ingredient = possibleIngredients[indexPath.row]
+        cell.nameLabel.text = possibleIngredients[indexPath.row].name
+        cell.imageView?.image = possibleIngredients[indexPath.row].image
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (chosenIngredientsView.text?.characters.count)! > 0 {
+            chosenIngredientsView.text?.append(", ")
+        }
+        let cell = ingredientsTableView.cellForRow(at: indexPath) as! IngredientTableViewCell
+        cell.setSelected(false, animated: true)
+        if let ing = cell.ingredient {
+            chosenIngredients.append(ing)
+            chosenIngredientsView.text?.append(ing.name)
+        } else {
+            print("Cell does not contain an ingredient")
+            return
+        }
+    }
+    
+//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        
+//     }
 }

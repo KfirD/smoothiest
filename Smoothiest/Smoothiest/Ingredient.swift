@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 class Ingredient: NSObject {
     var name: String
+    var image: UIImage
     
-    init(_ name: String) {
+    init(_ name: String, image: UIImage) {
         self.name = name
+        self.image = image
     }
 }
