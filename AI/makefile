@@ -1,4 +1,4 @@
-MODULES = network network_utils
+MODULES = network network_utils population activation
 HDRSRC  = ${MODULES:=.h}
 CPPSRC  = ${MODULES:=.cpp} main.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}
@@ -13,7 +13,7 @@ run: ${EXECBIN}
 
 ${EXECBIN} : ${OBJECTS}
 	${CPP} -o ${EXECBIN} ${OBJECTS}
-	@rm *.o
+	#@rm *.o
 
-${OBJECTS} : ${CPPSRC}
+${OBJECTS} : ${CPPSRC} ${HDRSRC}
 	${CPP} -c ${CPPSRC}
