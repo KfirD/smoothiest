@@ -15,5 +15,5 @@ ${EXECBIN} : ${OBJECTS}
 	${CPP} -o ${EXECBIN} ${OBJECTS}
 	#@rm *.o
 
-${OBJECTS} : ${CPPSRC}
+${OBJECTS} : ${CPPSRC} ${HDRSRC}
 	${CPP} -c ${CPPSRC}

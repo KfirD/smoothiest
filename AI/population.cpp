@@ -21,7 +21,7 @@ Network breed(const Network &nw1, const Network &nw2)
         for (Connection &childCon : childCons) {
             if (parentCon.get_id() == childCon.get_id()) {
                 match = true;
-                if (!parentCon.enabled) childCon.enabled = false;
+                if (!parentCon.enabled) childCon.disable();
                 break;
             }
         }

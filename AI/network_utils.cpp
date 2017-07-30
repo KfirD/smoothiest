@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include "activation.h"
 #include "network.h"
@@ -22,12 +23,12 @@ Neuron::Neuron(int id, double override_value):
 
 int Neuron::get_id() const { return id; }
 
-double Neuron::evaluate(const Neurons &neurons) const
+double Neuron::evaluate(const Neurons &neurons, std::unordered_map<int, Connection &> connection_map) const
 {
     std::vector<double> values;
     for (int index : inputs) {
         const Neuron &currentNeuron = neurons[index];
-        values.push_back(currentNeuron.evaluate(neurons));
+        values.push_back(currentNeuron.evaluate(neurons, connection_map));
     }
     return activation_functions[activation_id](values);
 }

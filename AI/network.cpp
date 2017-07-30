@@ -137,8 +137,8 @@ void Network::mutate() {
 //printing
 std::ostream &operator<<(std::ostream& out, const Network &concs) {
     for(Connection con: concs.get_connections()) {
-      out << con.get_id() << ": " << con.get_in() << "->";
-      out << con.get_out() << std::endl;
+      out << con.get_id() << ": \t" << con.get_in() << "->";
+      out << con.get_out() << "\t w: " << con.get_weight() << std::endl;
     }
     return out;
  }

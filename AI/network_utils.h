@@ -23,7 +23,7 @@ public:
    Neuron(int id);
    Neuron(int id, double override_value);
    int get_id() const;
-   double evaluate(const Neurons &neurons) const;
+   double evaluate(const Neurons &neurons, std::unordered_map<int, Connection &> conn_map) const;
    void add_input(int new_in);
    void add_output(int new_out);
 private:
@@ -46,7 +46,6 @@ public:
    void set_weight(double new_weight);
    void enable();
    void disable();
-
 private:
    const int id;
    const int in;

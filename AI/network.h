@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 #include "network_utils.h"
 
@@ -20,15 +21,14 @@ public:
    //Connection get_random_unconnection();
 
    int add_new_neuron();
-
    void mutate();
-
 private:
    const int num_in;
    const int num_out;
    int neuron_count;
    Neurons neurons;
    Connections connections;
+   std::unordered_map<int, Connection &> connection_map;
 };
 
 std::ostream &operator<<(std::ostream &out, const Network &concs);
