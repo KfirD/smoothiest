@@ -43,15 +43,15 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="smoothie.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="9VY-cF-UKA">
-                                <rect key="frame" x="8" y="455" width="375" height="667"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many ounces of smoothie do you want?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ep7-bg-4kY">
                                 <rect key="frame" x="16.5" y="200" width="342" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="smoothie.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="9VY-cF-UKA">
+                                <rect key="frame" x="0.0" y="346" width="375" height="667"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -253,7 +253,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hnh-IK-aeP">
-                                <rect key="frame" x="0.0" y="66" width="375" height="601"/>
+                                <rect key="frame" x="0.0" y="93" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="resultCell" id="yCZ-XB-OzH" customClass="ResultTableViewCell" customModule="Smoothiest" customModuleProvider="target">
@@ -301,14 +301,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3n-ys-egY">
+                                <rect key="frame" x="161" y="32" width="52" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="hnh-IK-aeP" secondAttribute="trailing" id="0Pm-7e-8xM"/>
                             <constraint firstItem="YNf-bw-3JW" firstAttribute="top" secondItem="qQ1-eY-6rv" secondAttribute="bottom" constant="8" id="29X-a0-F98"/>
+                            <constraint firstItem="hnh-IK-aeP" firstAttribute="top" secondItem="a3n-ys-egY" secondAttribute="bottom" constant="40" id="TGC-ZZ-Iq5"/>
                             <constraint firstItem="1gk-Sb-slS" firstAttribute="top" secondItem="hnh-IK-aeP" secondAttribute="bottom" id="W75-cl-oUn"/>
                             <constraint firstItem="hnh-IK-aeP" firstAttribute="leading" secondItem="fz3-1U-vql" secondAttribute="leading" id="WNc-to-zc0"/>
-                            <constraint firstItem="hnh-IK-aeP" firstAttribute="top" secondItem="YNf-bw-3JW" secondAttribute="bottom" constant="8" id="huA-A8-YOy"/>
+                            <constraint firstItem="a3n-ys-egY" firstAttribute="centerX" secondItem="fz3-1U-vql" secondAttribute="centerX" id="awF-VB-iiv"/>
+                            <constraint firstItem="a3n-ys-egY" firstAttribute="centerY" secondItem="YNf-bw-3JW" secondAttribute="centerY" id="p6Z-qQ-f4R"/>
                             <constraint firstItem="YNf-bw-3JW" firstAttribute="leading" secondItem="fz3-1U-vql" secondAttribute="leadingMargin" constant="8" id="s78-W9-vUf"/>
                         </constraints>
                     </view>

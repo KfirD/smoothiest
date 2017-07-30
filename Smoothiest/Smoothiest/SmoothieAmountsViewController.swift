@@ -52,7 +52,7 @@ class SmoothieAmountsViewController: UIViewController, UITableViewDataSource, UI
         }
         cell.nameLabel.text = cell.ingredient?.name
         cell.imageView?.image = cell.ingredient?.image
-        cell.amountLabel.text = results[resultsKeysArray[indexPath.row]]
+        cell.amountLabel.text = "\(results[resultsKeysArray[indexPath.row]] ?? "Error") oz"
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
         
