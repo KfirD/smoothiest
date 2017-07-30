@@ -10,7 +10,6 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
-    @IBOutlet weak var amountField: UITextField!
     @IBOutlet weak var chosenIngredientsView: UITextView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var ingredientsSearchBar: UISearchBar!
@@ -18,6 +17,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let possibleIngredients = [Ingredient("Strawberries", image: UIImage(named: "Strawberries.jpg")!),Ingredient("Mangoes", image: UIImage(named: "Mangoes.jpg")!), Ingredient("Bananas", image: UIImage(named: "Bananas.jpg")!), Ingredient("Pineapple", image: UIImage(named: "Pineapples.jpg")!)].sorted {$0.name < $1.name}
     var filteredPossibleIngredients = [Ingredient]()
     var chosenIngredients = [Ingredient]()
+    var smoothieAmount = Float()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBAction func gimmeASmoothiePressed(_ sender: Any) {
         var ingredients = [Ingredient]()
-        let smoothieAmount = Float(amountField.text!)
         for chosenIngredient in chosenIngredients {
             ingredients.append(chosenIngredient)
         }
@@ -55,7 +54,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard userErrorCheck(ingredients: ingredients, smoothieAmount: smoothieAmount) == true else {
             return
         }
-        NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount!, completion: smoothieResultsCallback)
+        NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount, completion: smoothieResultsCallback)
     }
     
     func smoothieResultsCallback(ingredientAmountResults: [String:Any]) {
@@ -81,16 +80,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func userErrorCheck(ingredients: [Ingredient], smoothieAmount: Float?) -> Bool {
         guard ingredients.count > 0 else {
-            print("No ingredients selected")
-            return false
-        }
-        guard smoothieAmount != nil else {
-            print("Non-number detected in smoothie amount field")
-            return false
-        }
-        let unwrappedSmoothieAmount = smoothieAmount!
-        guard unwrappedSmoothieAmount > 0 else {
-            print("Smoothie amount field must be greater than zero")
+            self.alert(message: "No ingredients selected")
             return false
         }
         return true
@@ -122,7 +112,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = ingredientsTableView.cellForRow(at: indexPath) as! IngredientTableViewCell
         cell.setSelected(false, animated: true)
         guard let ing = cell.ingredient else {
-            print("selected cell does not contain ingredient")
+            self.alert(message: "selected cell does not contain ingredient")
             return
         }
         guard !chosenIngredientsView.text.contains(ing.name) else {
