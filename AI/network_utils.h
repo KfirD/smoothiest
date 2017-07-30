@@ -21,8 +21,12 @@ public:
     // Methods
    Neuron(int id);
    int get_id() const;
+   void add_input(int new_in);
+   void add_output(int new_out);
 private:
    int id;
+   vector<int> inputs;
+   vector<int> outputs;
    //Trigger_Function trigger;
 };
 
