@@ -47,6 +47,8 @@ std::unordered_map<int, int> &Network::get_connection_map() { return connection_
 //connect()
 //Notes: all connecting handled here
 bool Network::connect(int in, int out, double weight) {
+   bool connect_debug = false;
+
     // push connection into connection vector
     connections.push_back(Connection(in, out, weight));
 
@@ -54,10 +56,12 @@ bool Network::connect(int in, int out, double weight) {
 
     connection_map.insert({new_connection.get_id(), connections.size() - 1});
 
-    // cout << "##########: connect()" << endl;
-    // cout << "in: " << in << endl;
-    // cout << "out: " << out << endl;
-    // cout << "size: " << neurons.size() << endl;
+    if(connect_debug) {
+      cout << "##########: connect()" << endl;
+      cout << "in: " << in << endl;
+      cout << "out: " << out << endl;
+      cout << "size: " << neurons.size() << endl;
+    }
 
     Neuron &in_neuron = neurons[in];
     Neuron &out_neuron = neurons[out];
@@ -84,7 +88,6 @@ void Network::set_input_neurons(const std::vector<double> &inputs)
 std::vector<double> Network::evaluate(const std::vector<double> &inputs)
 {
     set_input_neurons(inputs);
-
     std::vector<double> outputs;
     for (int i = num_in; i < (num_in + num_out); i++) {
         Neuron &currentNeuron = neurons[i];
@@ -113,10 +116,27 @@ Connection &Network::get_random_connection() {
 
 //get_random_connection();
 //Output: Random connection not in the network
-/*
 Connection Network::get_random_unconnection() {
-   return connections[rand];
-}*/
+   int limit = neurons.size();
+
+   for(int i = 0; i < limit; i++) {
+      Neuron &A = get_random_neuron();
+      Neuron &B = get_random_neuron();
+      vector<int> &Ain = A.get_inputs();
+      vector<int> &Bin = B.get_inputs();
+      if(A.get_id() == B.get_id()) continue;
+      bool isAB = find(Bin.begin(), Bin.end(), A.get_id()) != Bin.end();
+      if(!isAB) {
+         return Connection(A.get_id(), B.get_id(), random_p());
+      }
+      bool isBA = find(Ain.begin(), Ain.end(), B.get_id()) != Ain.end();
+      if(!isBA) {
+         return Connection(B.get_id(), A.get_id(), random_p());
+      }
+
+   }
+   return Connection(-1,-1,0); //The failure connection
+}
 
 //add_new_neuron();
 int Network::add_new_neuron() { //TODO: add activation function, make actual object
@@ -137,9 +157,11 @@ void Network::mutate() {
    double p_new_con  = 0.33;
    double p_change_weight = 0.33;
 
+   bool mutation_debug = false;
+
    double rand = random_p();
    if(rand <= p_new_node) {
-    //   cout << "Mutation: New Node as added\n";
+      if(mutation_debug) cout << "Mutation: New Node as added\n";
       // add a new node
       Connection c(get_random_connection());
       c.disable();
@@ -151,14 +173,15 @@ void Network::mutate() {
    else if(p_new_node < rand && rand <= p_new_node + p_new_con) {
     //   cout << "Mutation: Nothing Happened\n";
       // add a new Connection TODO
-      /*
+
       double default_weight = 0.5; //TODO: what should it be?
       Connection c = get_random_unconnection();
+      if(c.get_in() < 0) return;  //if no unconnection found, do nothing
       connect(c.get_in(), c.get_out(), default_weight);
-      */
+      if(mutation_debug) cout << "Mutation: New Connection Made\n";
    }
    else {
-    //   cout << "Mutation: Weight was changed\n";
+      if(mutation_debug) cout << "Mutation: Weight was changed\n";
       // change weight of a connection
       Connection &c = get_random_connection();
       double rand = random_p();
