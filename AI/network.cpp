@@ -49,7 +49,6 @@ bool Network::connect(int in, int out, double weight) {
     Connection &new_connection = connections.back();    // get new connection
 
     connection_map.insert({new_connection.get_id(), connections.size() - 1});
-
     Neuron &in_neuron = neurons[in];
     Neuron &out_neuron = neurons[out];
     in_neuron.add_output(out);

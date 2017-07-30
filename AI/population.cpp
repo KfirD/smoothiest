@@ -22,13 +22,11 @@ void breed_in_connection(Network &child, const Connection &parentCon)
     // cout << child << endl;
     // cout << "Parent connection: " << endl;
     // cout << parentCon << endl;
-
     // Check if there is a new node in parentCon and add it if there is
     int child_neuron_count = childNeurons.size();
     if (child_neuron_count < in || child_neuron_count < out) {
         int new_id = child.add_new_neuron();
     }
-
     child.connect(in, out, parentCon.get_weight());
 }
 
@@ -72,7 +70,6 @@ num_inputs(_num_inputs),
 num_outputs(_num_outputs)
 {
    feedback = _feedback;
-   cout << "hello\n";
    //populate population with single mutation networks
    for(int i = 0; i < size; i ++) {
       ranks.push_back(Rank (Network(_num_inputs, _num_outputs), 0));
