@@ -46,7 +46,7 @@ bool Network::connect(int in, int out, double weight) {
     // push connection into connection vector
     connections.push_back(Connection(in, out, weight));
 
-    Connection &new_connection = connections.back();    // get new connection
+    const Connection &new_connection = connections.back();    // get new connection
 
     connection_map.insert({new_connection.get_id(), connections.size() - 1});
 
@@ -104,7 +104,8 @@ Connection &Network::get_random_connection() {
       cerr << "get_random_connection() called, but no connections";
    }
    int rand = random_big()%connections.size();
-   return connections[rand];
+   Connection &c = connections[rand];
+   return c;
 }
 
 //get_random_connection();
@@ -137,7 +138,7 @@ void Network::mutate() {
    if(rand <= p_new_node) {
       cout << "Mutation: New Node as added\n";
       // add a new node
-      Connection &c = get_random_connection();
+      Connection c(get_random_connection());
       c.disable();
       int new_neuron_id = add_new_neuron(); //TODO
       //TODO: should the new connections have the same weight?

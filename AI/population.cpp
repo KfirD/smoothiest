@@ -19,7 +19,7 @@ void breed_in_connection(Network &child, const Connection &parentCon)
 
     cout << "out: " << out << endl;
 
-    if (out > 3000 || out < 3000) {
+    if (out > 3000 || out < -3000) {
         cout << "##################### WARNING" << endl;
         cout << parentCon << endl;
     }
@@ -156,6 +156,6 @@ void Population::restore_population(int target_size) {
 void Population::run_generation() {
    reset_fitnesses();
    evaluate_fitness(100); //evaulates 100 times
-   kill_inferior_population(80); //kills bottom 80%
+   kill_inferior_population(80); //kills bottom 80
    restore_population(100);
 }

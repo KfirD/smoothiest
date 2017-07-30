@@ -56,8 +56,9 @@ int main() {
    //Test population
    cout << endl << "Evaluated network:" << endl;
    cout << n3 << endl;
-   
+
    Population p(4,4, 10, &dummy_feedback);
+   cout << "built population \n";
    p.run_generation();
 
    return 0;
