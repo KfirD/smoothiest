@@ -7,6 +7,28 @@
 
 using namespace std;
 
+void breed_in_connection(Network &child, const Connection &parentCon)
+{
+    Connections &childCons = child.get_connections();
+    Neurons &childNeurons = child.get_neurons();
+    int in = parentCon.get_in();
+    int out = parentCon.get_out();
+
+    // cout << "BREEDING CHILD" << endl;
+    // cout << "Child: " << endl;
+    // cout << child << endl;
+    // cout << "Parent connection: " << endl;
+    // cout << parentCon << endl;
+
+    // Check if there is a new node in parentCon and add it if there is
+    int child_neuron_count = childNeurons.size();
+    if (child_neuron_count < in || child_neuron_count < out) {
+        int new_id = child.add_new_neuron();
+    }
+
+    child.connect(in, out, parentCon.get_weight());
+}
+
 Network breed(const Network &nw1, const Network &nw2)
 {
     Network child = nw1;
@@ -16,6 +38,7 @@ Network breed(const Network &nw1, const Network &nw2)
     /*
      * Loop through each of parent2's connections doing:
      * - if parent2 has any connection that child doesn't, add it to child
+     *      - if connection includes new nodes, add those nodes
      * - if parent2 has any disabled shared connections, disable it for child
      */
     for (const Connection &parentCon : parentCons) {
@@ -28,8 +51,9 @@ Network breed(const Network &nw1, const Network &nw2)
             }
         }
 
-        if (!match)
-            childCons.push_back(parentCon);
+        if (!match) {
+            breed_in_connection(child, parentCon);
+        }
     }
 
     child.mutate();

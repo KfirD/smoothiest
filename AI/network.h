@@ -12,8 +12,12 @@ using namespace std;
 class Network {
 public:
    Network(int num_in, int num_out);
-   const Connections& get_connections() const;
-   Connections& get_connections();
+   const Neurons &get_neurons() const;
+   Neurons &get_neurons();
+   const Connections &get_connections() const;
+   Connections &get_connections();
+   const std::unordered_map<int, int> &get_connection_map() const;
+   std::unordered_map<int, int> &get_connection_map();
    bool connect(int in, int out, double weight);
    std::vector<double> evaluate(const std::vector<double> &inputs);
 
@@ -30,7 +34,7 @@ private:
     int neuron_count;
     Neurons neurons;
     Connections connections;
-    std::unordered_map<int, const Connection &> connection_map;
+    std::unordered_map<int, int> connection_map;
 
     // Methods
     void set_input_neurons(const std::vector<double> &inputs);

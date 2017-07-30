@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "activation.h"
 #include "network.h"
 
 using namespace std;
@@ -42,8 +43,14 @@ Network::Network(int num_in, int num_out):
    neuron_count = num_in + num_out;
 }
 
-const Connections& Network::get_connections() const { return connections; }
-Connections& Network::get_connections() { return connections; }
+const Neurons &Network::get_neurons() const { return neurons; }
+Neurons &Network::get_neurons() { return neurons; }
+
+const Connections &Network::get_connections() const { return connections; }
+Connections &Network::get_connections() { return connections; }
+
+const std::unordered_map<int, int> &Network::get_connection_map() const { return connection_map; }
+std::unordered_map<int, int> &Network::get_connection_map() { return connection_map; }
 
 //connect()
 //Notes: all connecting handled here
@@ -52,7 +59,8 @@ bool Network::connect(int in, int out, double weight) {
     connections.push_back(Connection(in, out, weight));
 
     Connection &new_connection = connections.back();    // get new connection
-    connection_map.insert({new_connection.get_id(), new_connection});
+
+    connection_map.insert({new_connection.get_id(), connections.size() - 1});
 
     Neuron &in_neuron = neurons[in];
     Neuron &out_neuron = neurons[out];
@@ -67,7 +75,7 @@ bool Network::connect(int in, int out, double weight) {
 void Network::set_input_neurons(const std::vector<double> &inputs)
 {
     if (num_in != inputs.size()) {
-        cerr << "ERROR: inputs does not match Network's num_in" << endl;
+        cerr << "ERROR: inputs does not match Network's num_in." << endl;
     }
 
     for (int i = 0; i < num_in; i++) {
@@ -82,7 +90,9 @@ std::vector<double> Network::evaluate(const std::vector<double> &inputs)
 
     std::vector<double> outputs;
     for (int i = num_in; i < (num_in + num_out); i++) {
-        outputs.push_back(neurons[i].evaluate(neurons, connection_map));
+        Neuron &currentNeuron = neurons[i];
+        currentNeuron.set_activation_id(0);
+        outputs.push_back(currentNeuron.evaluate(neurons, connections, connection_map));
     }
     return outputs;
 }
@@ -161,10 +171,16 @@ void Network::mutate() {
 }
 
 //printing
-std::ostream &operator<<(std::ostream& out, const Network &concs) {
-    for(Connection con: concs.get_connections()) {
-      out << con.get_id() << ": \t" << con.get_in() << "->";
-      out << con.get_out() << "\t w: " << con.get_weight() << std::endl;
+std::ostream &operator<<(std::ostream& out, const Network &network) {
+    out << "Connections: " << endl;
+    for(const Connection &con : network.get_connections()) {
+        out << con << endl;
     }
+
+    out << "Neurons: " << endl;
+    for(const Neuron &n : network.get_neurons()) {
+        out << n << endl;
+    }
+
     return out;
  }
