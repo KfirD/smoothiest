@@ -23,12 +23,17 @@ Neuron::Neuron(int id, double override_value):
 
 int Neuron::get_id() const { return id; }
 
-double Neuron::evaluate(const Neurons &neurons, std::unordered_map<int, Connection &> connection_map) const
+double Neuron::evaluate(const Neurons &neurons, const std::unordered_map<int, const Connection &> &connection_map) const
 {
+    if (override_flag)
+        return override_value;
+
     std::vector<double> values;
     for (int index : inputs) {
         const Neuron &currentNeuron = neurons[index];
-        values.push_back(currentNeuron.evaluate(neurons, connection_map));
+        const Connection &currentConnection = connection_map.at(cantor(currentNeuron.get_id(), id));
+
+        values.push_back(currentConnection.get_weight() * currentNeuron.evaluate(neurons, connection_map));
     }
     return activation_functions[activation_id](values);
 }
@@ -39,6 +44,12 @@ void Neuron::add_input(int new_in) {
 
 void Neuron::add_output(int new_out) {
    outputs.push_back(new_out);
+}
+
+void Neuron::set_override_value(double new_value)
+{
+    override_flag = true;
+    override_value = new_value;
 }
 
 //Connection -----------------------------------------------------------

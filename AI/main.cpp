@@ -27,5 +27,16 @@ int main() {
    Network n3 = breed(n1, n2);
    cout << n3 << endl;
 
+   // Create test network inputs
+   std::vector<double> network_inputs;
+   network_inputs.push_back(1);
+   network_inputs.push_back(2);
+
+   // Calculate network outputs
+   const std::vector<double> network_output(n3.evaluate(network_inputs));
+   for (double val : network_output) {
+       cout << "Output: " << val << endl;
+   }
+
    return 0;
 }

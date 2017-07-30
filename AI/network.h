@@ -15,7 +15,7 @@ public:
    const Connections& get_connections() const;
    Connections& get_connections();
    bool connect(int in, int out, double weight);
-   vector<double> evaluate(vector<double> inputs);
+   std::vector<double> evaluate(const std::vector<double> &inputs);
 
    Connection &get_random_connection();
    Neuron &get_random_neuron();
@@ -24,12 +24,16 @@ public:
    int add_new_neuron();
    void mutate();
 private:
-   const int num_in;
-   const int num_out;
-   int neuron_count;
-   Neurons neurons;
-   Connections connections;
-   std::unordered_map<int, Connection &> connection_map;
+    // Data
+    const int num_in;
+    const int num_out;
+    int neuron_count;
+    Neurons neurons;
+    Connections connections;
+    std::unordered_map<int, const Connection &> connection_map;
+
+    // Methods
+    void set_input_neurons(const std::vector<double> &inputs);
 };
 
 std::ostream &operator<<(std::ostream &out, const Network &concs);

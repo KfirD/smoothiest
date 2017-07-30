@@ -2,14 +2,14 @@ MODULES = network network_utils population activation
 HDRSRC  = ${MODULES:=.h}
 CPPSRC  = ${MODULES:=.cpp} main.cpp
 OBJECTS = ${CPPSRC:.cpp=.o}
-EXECBIN = smoothiest
+EXECBIN = smoothiest_executable
 CPP 	= g++ -g -O0 -Wall -Wextra -std=gnu++14
 
 all: ${EXECBIN}
 
 run: ${EXECBIN}
 	clear
-	./smoothiest
+	./${EXECBIN}
 
 ${EXECBIN} : ${OBJECTS}
 	${CPP} -o ${EXECBIN} ${OBJECTS}

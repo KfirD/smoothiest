@@ -12,6 +12,8 @@ class Connection;
 using Neurons = vector<Neuron>;
 using Connections = vector<Connection>;
 
+int cantor(int a, int b);
+
 /* Neuron */
 class Neuron {
 public:
@@ -23,9 +25,10 @@ public:
    Neuron(int id);
    Neuron(int id, double override_value);
    int get_id() const;
-   double evaluate(const Neurons &neurons, std::unordered_map<int, Connection &> conn_map) const;
+   double evaluate(const Neurons &neurons, const std::unordered_map<int, const Connection &> &conn_map) const;
    void add_input(int new_in);
    void add_output(int new_out);
+   void set_override_value(double val);
 private:
    double override_value;
    bool override_flag;
