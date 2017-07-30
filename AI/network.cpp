@@ -6,27 +6,9 @@
 
 #include "activation.h"
 #include "network.h"
+#include "utilities.h"
 
 using namespace std;
-
-double random_p() {
-   static bool first = true;
-   if(first) {
-      struct timespec ts;
-      clock_gettime(CLOCK_MONOTONIC, &ts);
-      srand((time_t)ts.tv_nsec);
-   }
-   return ((double) rand() / (RAND_MAX));
-}
-int random_big() {
-   static bool first = true;
-   if(first) {
-      struct timespec ts;
-      clock_gettime(CLOCK_MONOTONIC, &ts);
-      srand((time_t)ts.tv_nsec);
-   }
-   return rand();
-}
 
 //Network()
 //Notes: constructor
@@ -41,6 +23,12 @@ Network::Network(int num_in, int num_out):
       neurons.push_back(Neuron(i));
    }
    neuron_count = num_in + num_out;
+
+   for(int i = 0; i < num_in; i++) {
+      for(int j = 0; j < num_out; j++) {
+         connect(i,j,random_p());
+      }
+   }
 }
 
 const Neurons &Network::get_neurons() const { return neurons; }
@@ -107,6 +95,9 @@ Neuron &Network::get_random_neuron() {
 //get_random_connection();
 //Output: Random connection in the network
 Connection &Network::get_random_connection() {
+   if(connections.size() == 0) {
+      cerr << "get_random_connection() called, but no connections";
+   }
    int rand = random_big()%connections.size();
    return connections[rand];
 }
@@ -165,8 +156,7 @@ void Network::mutate() {
       double w = c.get_weight();
       //50-50 chance of increasing or decreasing the weight
       //TODO: figure out correct amount to change weights
-      w = rand < 0.5? w*(1/2+1/(1+w)) : w/(1/2+1/(1+w));
-      c.set_weight(w);
+      w = rand < 0.5? w*(1/2.0+1/(1.0+w)) : w/(1/2.0+1/(1.0+w));
    }
 }
 
