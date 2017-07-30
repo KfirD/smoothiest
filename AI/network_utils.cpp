@@ -39,10 +39,8 @@ double Neuron::evaluate(const Neurons &neurons,
         const Neuron &currentNeuron = neurons[index];
         int cantor_val = cantor(currentNeuron.get_id(), id);
         const Connection &currentConnection = connections[connection_map.at(cantor_val)];
-
         double weight = currentConnection.get_weight();
         double value = currentNeuron.evaluate(neurons, connections, connection_map);
-
         // cout << "CURRENT NEURON # " << currentNeuron.id << endl;
         // cout << currentConnection << endl;
         // cout << "cantor: " << cantor_val << endl;

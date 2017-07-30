@@ -23,7 +23,7 @@ public:
 
    Connection &get_random_connection();
    Neuron &get_random_neuron();
-   //Connection get_random_unconnection();
+   Connection get_random_unconnection();
 
    int add_new_neuron();
    void mutate();

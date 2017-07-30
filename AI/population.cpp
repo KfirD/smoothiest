@@ -17,12 +17,12 @@ void breed_in_connection(Network &child, const Connection &parentCon)
     int in = parentCon.get_in();
     int out = parentCon.get_out();
 
-    cout << "out: " << out << endl;
+    /*cout << "out: " << out << endl;
 
     if (out > 3000 || out < -3000) {
         cout << "##################### WARNING" << endl;
         cout << parentCon << endl;
-    }
+    }*/
 
     // cout << "BREEDING CHILD" << endl;
     // cout << "Child: " << endl;
