@@ -9,21 +9,26 @@
 import Foundation
 
 class NetworkController: NSObject {
-    static func getIngredientAmountsFromServer(ingredients: [Ingredient], smoothieAmountInOz: Float) -> [Float] {
-        var amounts = [Float]()
-        for _ in ingredients {
-            amounts.append(NetworkController.generateRandomAmount())
-        }
-        return amounts
+    static func getIngredientAmountsFromServer(ingredients: [Ingredient], smoothieAmountInOz: Float, completion: @escaping (_ results: [String:Any]) -> Void) {
+//        for _ in ingredients {
+//            amounts.append(NetworkController.generateRandomAmount())
+//        }
         
-        let urlString = URL(string: "smoothiest.tech")
+        let urlString = URL(string: "http://demo.smoothiest.tech/debug.php")
         if let url = urlString {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if error != nil {
                     print(error ?? "Network call error was nil")
                 } else {
                     if let usableData = data {
-                        print(usableData) //JSONSerialization
+                        do {
+                            if let res = try JSONSerialization.jsonObject(with: usableData, options: []) as? [String:Any] {
+                                completion(res)
+                            }
+                        } catch {
+                            print(error)
+                        }
+                        print() //JSONSerialization
                     }
                 }
             }

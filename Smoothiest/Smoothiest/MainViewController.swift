@@ -8,23 +8,29 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var amountField: UITextField!
     @IBOutlet weak var chosenIngredientsView: UITextView!
     @IBOutlet weak var ingredientsTableView: UITableView!
     @IBOutlet weak var ingredientsSearchBar: UISearchBar!
     
-    let possibleIngredients = [Ingredient("Strawberries", image: UIImage()),Ingredient("Mangoes", image: UIImage())]
+    let possibleIngredients = [Ingredient("Strawberries", image: UIImage(named: "Strawberries.jpg")!),Ingredient("Mangoes", image: UIImage(named: "Mangoes.jpg")!), Ingredient("Bananas", image: UIImage(named: "Bananas.jpg")!), Ingredient("Pineapple", image: UIImage(named: "Pineapples.jpg")!)].sorted {$0.name < $1.name}
+    var filteredPossibleIngredients = [Ingredient]()
     var chosenIngredients = [Ingredient]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ingredientsTableView.dataSource = self
         ingredientsTableView.delegate = self
+        ingredientsSearchBar.delegate = self
+        filteredPossibleIngredients = possibleIngredients
     }
     
     @IBAction func deletePressed(_ sender: Any) {
+        if chosenIngredients.count > 0 {
+            chosenIngredients.removeLast()
+        }
         repeat {
             if chosenIngredientsView.text.characters.count > 0 {
                 chosenIngredientsView.deleteBackward()
@@ -49,9 +55,28 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard userErrorCheck(ingredients: ingredients, smoothieAmount: smoothieAmount) == true else {
             return
         }
-        let ingredientAmountsResult = NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount!)
-        print(ingredientAmountsResult)
-        performSegue(withIdentifier: "displaySmoothieResultsSegue", sender: nil)
+        NetworkController.getIngredientAmountsFromServer(ingredients: ingredients, smoothieAmountInOz: smoothieAmount!, completion: smoothieResultsCallback)
+    }
+    
+    func smoothieResultsCallback(ingredientAmountResults: [String:Any]) {
+        print(ingredientAmountResults)
+        if let status = ingredientAmountResults["status"] as? String {
+            guard status == "200" else {
+                print("JSON status was not 200.")
+                return
+            }
+        } else {
+            print("JSON did not contain a string status")
+            return
+        }
+        guard let results = ingredientAmountResults["results"] as? [String:String] else {
+            print("JSON did not contain a [String:String] results")
+            return
+        }
+        print(results)
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "displaySmoothieResultsSegue", sender: results)
+        }
     }
     
     func userErrorCheck(ingredients: [Ingredient], smoothieAmount: Float?) -> Bool {
@@ -78,35 +103,55 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return possibleIngredients.count
+        return filteredPossibleIngredients.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath) as!IngredientTableViewCell
         
-        cell.ingredient = possibleIngredients[indexPath.row]
-        cell.nameLabel.text = possibleIngredients[indexPath.row].name
-        cell.imageView?.image = possibleIngredients[indexPath.row].image
+        cell.ingredient = filteredPossibleIngredients[indexPath.row]
+        cell.nameLabel.text = cell.ingredient?.name
+        cell.imageView?.image = cell.ingredient?.image
+        cell.setNeedsLayout()
+        cell.layoutIfNeeded()
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = ingredientsTableView.cellForRow(at: indexPath) as! IngredientTableViewCell
+        cell.setSelected(false, animated: true)
+        guard let ing = cell.ingredient else {
+            print("selected cell does not contain ingredient")
+            return
+        }
+        guard !chosenIngredientsView.text.contains(ing.name) else {
+            return
+        }
         if (chosenIngredientsView.text?.characters.count)! > 0 {
             chosenIngredientsView.text?.append(", ")
         }
-        let cell = ingredientsTableView.cellForRow(at: indexPath) as! IngredientTableViewCell
-        cell.setSelected(false, animated: true)
-        if let ing = cell.ingredient {
-            chosenIngredients.append(ing)
-            chosenIngredientsView.text?.append(ing.name)
-        } else {
-            print("Cell does not contain an ingredient")
-            return
-        }
+        chosenIngredients.append(ing)
+        chosenIngredientsView.text?.append(ing.name)
     }
     
-//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//     }
+    // MARK: Searching Stuff
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            filteredPossibleIngredients = possibleIngredients
+        }
+        else {
+            filteredPossibleIngredients = possibleIngredients.filter {$0.name.lowercased().contains(searchText.lowercased())}
+        }
+        ingredientsTableView.reloadData()
+    }
+    
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let results = sender as? [String:String] else {
+            print("sender in prepareforsegue was not a [String:String]")
+            return
+        }
+        (segue.destination as! SmoothieAmountsViewController).results = results
+     }
 }
