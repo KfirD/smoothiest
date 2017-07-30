@@ -1,8 +1,8 @@
 
-#include <iostream>
 #include <cstdlib>
-#include <stdlib.h>
-#include <time.h>
+#include <ctime>
+#include <iostream>
+#include <unordered_map>
 
 #include "network.h"
 
@@ -30,7 +30,8 @@ int random_big() {
 //Network()
 //Notes: constructor
 Network::Network(int num_in, int num_out):
-num_in(num_in), num_out(num_out) {
+    num_in(num_in), num_out(num_out)
+{
    //initialize input and output neurons
    for(int i = 0; i < num_in; i++) {
       neurons.push_back(Neuron(i));
@@ -41,23 +42,49 @@ num_in(num_in), num_out(num_out) {
    neuron_count = num_in + num_out;
 }
 
-const Connections& Network::get_connections() const {return connections;}
-Connections& Network::get_connections() {return connections;}
+const Connections& Network::get_connections() const { return connections; }
+Connections& Network::get_connections() { return connections; }
 
 //connect()
 //Notes: all connecting handled here
 bool Network::connect(int in, int out, double weight) {
-   connections.push_back(Connection(in,out,weight));
-   Neuron &in_neuron = neurons[in];
-   Neuron &out_neuron = neurons[out];
-   in_neuron.add_output(out);
-   out_neuron.add_input(in);
+    // push connection into connection vector
+    connections.push_back(Connection(in, out, weight));
 
+    Connection &new_connection = connections.back();    // get new connection
+    connection_map.insert({new_connection.get_id(), new_connection});
 
-   //TODO: check for redundant connections
-   //TODO: check if actually suppose to be circular
-   return true;
+    Neuron &in_neuron = neurons[in];
+    Neuron &out_neuron = neurons[out];
+    in_neuron.add_output(out);
+    out_neuron.add_input(in);
 
+    //TODO: check for redundant connections
+    //TODO: check if actually suppose to be circular
+    return true;
+}
+
+void Network::set_input_neurons(const std::vector<double> &inputs)
+{
+    if (num_in != inputs.size()) {
+        cerr << "ERROR: inputs does not match Network's num_in" << endl;
+    }
+
+    for (int i = 0; i < num_in; i++) {
+        Neuron &currentNeuron = neurons[i];
+        currentNeuron.set_override_value(inputs[i]);
+    }
+}
+
+std::vector<double> Network::evaluate(const std::vector<double> &inputs)
+{
+    set_input_neurons(inputs);
+
+    std::vector<double> outputs;
+    for (int i = num_in; i < (num_in + num_out); i++) {
+        outputs.push_back(neurons[i].evaluate(neurons, connection_map));
+    }
+    return outputs;
 }
 
 //get_random_neuron();
@@ -131,7 +158,6 @@ void Network::mutate() {
       w = rand < 0.5? w*(1/2+1/(1+w)) : w/(1/2+1/(1+w));
       c.set_weight(w);
    }
-
 }
 
 //printing
