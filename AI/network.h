@@ -10,18 +10,19 @@ using namespace std;
 
 class Network {
 public:
-   Network(Neurons& input, Neurons& output);
+   Network(int num_in, int num_out);
    Connections& get_connections();
-   bool connect(Neuron &src, Neuron &dst, double weight);
+   bool connect(int in, int out, double weight);
+
+   //void mutate();
 
 private:
-   Neurons inner_neurons;
+   const int num_in;
+   const int num_out;
+   Neurons neurons;
    Connections connections;
-
-   Neurons& input;
-   Neurons& output;
 };
 
-std::ostream &operator<<(std::ostream &out, Network &coord);
+std::ostream &operator<<(std::ostream &out, Network &concs);
 
 #endif

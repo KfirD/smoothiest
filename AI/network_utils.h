@@ -24,16 +24,17 @@ private:
 
 class Connection {
 public:
-   Connection(Neuron &src, Neuron &dst, double weight);
+   Connection(int in, int out, double weight);
    int get_id() const;
-   Neuron& get_src();
-   Neuron& get_dst();
+   bool enabled;
+   int get_in() const;
+   int get_out() const;
    double get_weight() const;
 
 private:
-   int id;
-   Neuron& src;
-   Neuron& dst;
+   const int id;
+   const int in;
+   const int out;
    double weight;
 };
 

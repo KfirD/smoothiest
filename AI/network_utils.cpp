@@ -13,14 +13,16 @@ int cantor(int x, int y) {
    return (x+y)*(x+y+1)/2 + y;
 }
 
-Connection::Connection(Neuron &src, Neuron &dst, double weight):
-src(src), dst(dst), weight(weight) {
-   id = cantor(src.get_id(), dst.get_id());
-}
+Connection::Connection(int in, int out, double weight):
+   in(in),
+   out(out),
+   weight(weight),
+   id(cantor(in,out))
+{}
 
 int Connection::get_id() const {return id;}
-Neuron& Connection::get_src() {return src;}
-Neuron& Connection::get_dst() {return dst;}
+int Connection::get_in() const {return in;}
+int Connection::get_out() const {return out;}
 double Connection::get_weight() const {return weight;}
 
 

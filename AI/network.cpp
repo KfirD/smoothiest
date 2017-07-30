@@ -3,30 +3,25 @@
 
 #include "network.h"
 
-Network::Network(Neurons& input, Neurons& output):
-input(input), output(output){}
+Network::Network(int num_in, int num_out):
+num_in(num_in), num_out(num_out) {}
 
 Connections& Network::get_connections() {return connections;}
 
 //all connecting handled here
 //by convention a connection goes from low to high id
-bool Network::connect(Neuron &src, Neuron &dst, double weight) {
-   if(src.get_id() < dst.get_id()) {
-      connections.push_back(Connection(src,dst,weight));
-   }
-   else {
-      connections.push_back(Connection(dst,src,weight));
-   }
-   //should check for redundant connections
-
+bool Network::connect(int in, int out, double weight) {
+   connections.push_back(Connection(in,out,weight));
+   //TODO: check for redundant connections
+   //TODO: check if actually suppose to be circular
    return true;
 
 }
 
-std::ostream &operator<<(std::ostream& out, Network &coord) {
-    for(Connection con: coord.get_connections()) {
-      out << con.get_id() << ": " << con.get_src().get_id() << "->";
-      out << con.get_dst().get_id() << " | ";
+std::ostream &operator<<(std::ostream& out, Network &concs) {
+    for(Connection con: concs.get_connections()) {
+      out << con.get_id() << ": " << con.get_in() << "->";
+      out << con.get_out() << " | ";
     }
     return out;
  }
