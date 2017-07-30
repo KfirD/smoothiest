@@ -11,9 +11,10 @@ using namespace std;
 class Network {
 public:
    Network(int num_in, int num_out);
+   const Connections& get_connections() const;
    Connections& get_connections();
    bool connect(int in, int out, double weight);
-
+   void mutate();
    //void mutate();
 
 private:
@@ -23,6 +24,6 @@ private:
    Connections connections;
 };
 
-std::ostream &operator<<(std::ostream &out, Network &concs);
+std::ostream &operator<<(std::ostream &out, const Network &concs);
 
 #endif
