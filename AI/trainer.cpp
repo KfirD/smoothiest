@@ -16,7 +16,7 @@ double feedback(vector<double> &inputs, vector<double> &outputs)
 
     double diff = 0;
     for (int i = 0; i < inputs.size(); i++) {
-        diff += std::abs(inputs[i] - outputs[i]);
+        diff += std::pow(inputs[i] - outputs[i], 2);
     }
     return -diff;
 }

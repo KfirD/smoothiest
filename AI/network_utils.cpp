@@ -42,35 +42,40 @@ double Neuron::evaluateR(const Neurons &neurons,
     }
 
     if (visited_neurons.find(id) != visited_neurons.end()) {
-        std::cout << "Neuron already visited" << std::endl;
+        //std::cout << "Neuron already visited" << std::endl;
         return 0;   // This node has already been visited
     }
+
+     visited_neurons.insert(id);
 
     std::vector<double> values;
     for (int index : inputs) {
         // std::cout << "BEGIN LOOP Neuron::evaluate()" << std::endl;
-        if (index >= neurons.size()) std::cout << "############ BAD INDEX" << std::endl;
+        //if (index >= neurons.size()) std::cout << "############ BAD INDEX" << std::endl;
         const Neuron &currentNeuron = neurons[index];
         int cantor_val = cantor(currentNeuron.get_id(), id);
         const Connection &currentConnection = connections[connection_map.at(cantor_val)];
         double weight = currentConnection.get_weight();
-        std::cout << "MID LOOP 1 Neuron::evaluate()" << std::endl;
-        std::cout << currentNeuron << std::endl;
-        double value = currentNeuron.evaluate(neurons, connections, connection_map);
-        std::cout << "END LOOP Neuron::evaluate()" << std::endl;
+        //std::cout << "MID LOOP 1 Neuron::evaluate()" << std::endl;
+        //std::cout << currentNeuron << std::endl;
+        double value = currentNeuron.evaluateR(neurons, connections, connection_map, visited_neurons);
+        //std::cout << "END LOOP Neuron::evaluate()" << std::endl;
 
-        // cout << "CURRENT NEURON # " << currentNeuron.id << endl;
-        // cout << currentConnection << endl;
-        // cout << "cantor: " << cantor_val << endl;
-        // cout << "weight: " << weight << endl;
-        // cout << "value: " << value << endl;
-        // cout << "end value: " << weight * value << endl;
+      //   cout << "CURRENT NEURON # " << currentNeuron.id << endl;
+      //   cout << currentConnection << endl;
+      //   cout << "cantor: " << cantor_val << endl;
+      //   cout << "weight: " << weight << endl;
+      //   cout << "value: " << value << endl;
+      //   cout << "end value: " << weight * value << endl;
 
         values.push_back(weight * value);
     }
 
-    visited_neurons.insert(id);
-    return activation_functions[activation_id](values);
+    double activation_result = activation_functions[activation_id](values);
+   //  cout << "Activation id: " << activation_id << endl;
+   //  cout << "Activation result: " << activation_result << endl;
+
+    return activation_result;
 }
 
 void Neuron::add_input(int new_in) { inputs.push_back(new_in); }

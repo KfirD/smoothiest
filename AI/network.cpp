@@ -73,6 +73,20 @@ bool Network::connect(int in, int out, double weight) {
     return true;
 }
 
+bool Network::disconnect(int in, int out)
+{
+   Neuron &in_neuron = neurons[in];
+   Neuron &out_neuron = neurons[out];
+
+   std::vector<int> &outputs = in_neuron.get_outputs();
+   outputs.erase(outputs.begin(),
+      std::find(outputs.begin(), outputs.end(), out));
+
+   std::vector<int> &inputs = out_neuron.get_inputs();
+   inputs.erase(inputs.begin(),
+      std::find(inputs.begin(), inputs.end(), in));
+}
+
 void Network::set_input_neurons(const std::vector<double> &inputs)
 {
     if (num_in != inputs.size()) {
@@ -89,7 +103,7 @@ std::vector<double> Network::evaluate(const std::vector<double> &inputs)
 {
     set_input_neurons(inputs);
 
-    std::cout << "######## Network::evaluate()" << endl;
+    //std::cout << "######## Network::evaluate()" << endl;
 
     std::vector<double> outputs;
     for (int i = num_in; i < (num_in + num_out); i++) {
@@ -136,7 +150,6 @@ Connection Network::get_random_unconnection() {
       if(!isBA) {
          return Connection(B.get_id(), A.get_id(), random_p());
       }
-
    }
    return Connection(-1,-1,0); //The failure connection
 }
@@ -168,10 +181,11 @@ void Network::mutate() {
       // add a new node
       Connection c(get_random_connection());
       c.disable();
+      disconnect(c.get_in(), c.get_out());
       int new_neuron_id = add_new_neuron(); //TODO
       //TODO: should the new connections have the same weight?
-      connect(c.get_in(), new_neuron_id, c.get_weight());
-      connect(new_neuron_id, c.get_out(), c.get_weight());
+      connect(c.get_in(), new_neuron_id, random_p());
+      connect(new_neuron_id, c.get_out(), random_p());
    }
    else if(p_new_node < rand && rand <= p_new_node + p_new_con) {
     //   cout << "Mutation: Nothing Happened\n";
@@ -180,7 +194,7 @@ void Network::mutate() {
       double default_weight = 0.5; //TODO: what should it be?
       Connection c = get_random_unconnection();
       if(c.get_in() < 0) return;  //if no unconnection found, do nothing
-      connect(c.get_in(), c.get_out(), default_weight);
+      connect(c.get_in(), c.get_out(), c.get_weight());
       if(mutation_debug) cout << "Mutation: New Connection Made\n";
    }
    else {

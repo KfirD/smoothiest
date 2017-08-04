@@ -19,6 +19,7 @@ public:
    const std::unordered_map<int, int> &get_connection_map() const;
    std::unordered_map<int, int> &get_connection_map();
    bool connect(int in, int out, double weight);
+   bool disconnect(int in, int out);
    std::vector<double> evaluate(const std::vector<double> &inputs);
 
    Connection &get_random_connection();

@@ -42,6 +42,12 @@ Network breed(const Network &nw1, const Network &nw2)
     Connections &childCons = child.get_connections();
     const Connections &parentCons = nw2.get_connections();
 
+   // cout << "Parent 1: " << endl;
+   // cout << nw1 << endl;
+   //
+   // cout << "Parent 2: " << endl;
+   // cout << nw2 << endl;
+
     // Pad out child to size of network2 if need be
     const Neurons &parentNeurons = nw2.get_neurons();
     const Neurons &childNeurons = child.get_neurons();
@@ -86,14 +92,15 @@ double (*_feedback)(vector<double>&, vector<double>&)):
     for(int i = 0; i < size; i ++) {
         ranks.push_back(Rank(Network(_num_inputs, _num_outputs), 0));
         Network &n = ranks.back().first;
-        n.mutate();
+        for(int i = 0; i < 20; i++)
+           n.mutate();
     }
 }
 
 vector<double> Population::generate_random_input() {
    vector<double> random_inputs;
    for(int i = 0; i < num_inputs; i++) {
-      random_inputs.push_back(random_p());
+      random_inputs.push_back(random_p() * 100);
    }
    return random_inputs;
 }
@@ -123,13 +130,13 @@ void Population::evaluate_fitness(int num_times) {
     // }
 
     for (Rank &rank : ranks) {
-        cout << "Get rank network" << endl;
+        //cout << "Get rank network" << endl;
         Network &network = rank.first;
 
-        cout << "Generate random input" << endl;
+        //cout << "Generate random input" << endl;
         vector<double> inputs = generate_random_input();
 
-        cout << "Get network fitness" << endl;
+        //cout << "Get network fitness" << endl;
         rank.second = get_network_fitness(network, inputs, num_times);
     }
 }
@@ -147,9 +154,19 @@ double Population::get_network_fitness(Network &network, vector<double> &inputs,
 
 void Population::kill_inferior_population(double percentage) {
    //sort list by rank
+   // std::cout << "########################## IMPORTANT" << std::endl;
+   //std::cout << "unsorted ##################" << std::endl;
+   /*for (Rank &rank : ranks) {
+      std::cout << rank.second << std::endl;
+   }*/
    ranks.sort([](const Rank &a, const Rank &b) {
       return a.second < b.second;
    });
+   // std::cout << "\"sorted\"" << std::endl;
+   for (Rank &rank : ranks) {
+      // std::cout << rank.second << " Num neurons:" << rank.first.get_neurons().size();
+      // std::cout << std::endl;
+   }
    //get number to kill
    int kill_num = ranks.size()*percentage/100;
    for(int i = 0; i < kill_num - 1; i++) {
@@ -177,12 +194,12 @@ Network Population::get_best_network()
 }
 
 void Population::run_generation() {
-    cout << "reset fitness" << endl;
+    //cout << "reset fitness" << endl;
     reset_fitnesses();
-    cout << "evaluate fitness" << endl;
+    //cout << "evaluate fitness" << endl;
     evaluate_fitness(100); //evaulates 100 times
-    cout << "kill inferior population" << endl;
+    //cout << "kill inferior population" << endl;
     kill_inferior_population(80); //kills bottom 80%
-    cout << "restore population" << endl;
+    //cout << "restore population" << endl;
     restore_population(100);
 }
