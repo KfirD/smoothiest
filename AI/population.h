@@ -13,7 +13,7 @@ public:
    Population(int num_inputs, int num_outputs, int size,
    double (*_feedback)(vector<double>&, vector<double>&));
 
-   list<Rank> ranks;
+   std::vector<Rank> ranks;
 
    double (*feedback)(vector<double>&, vector<double>&);
 

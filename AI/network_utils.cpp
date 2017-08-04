@@ -42,9 +42,10 @@ double Neuron::evaluateR(const Neurons &neurons,
     }
 
     if (visited_neurons.find(id) != visited_neurons.end()) {
-        std::cout << "Neuron already visited" << std::endl;
+        //std::cout << "Neuron already visited" << std::endl;
         return 0;   // This node has already been visited
     }
+    visited_neurons.insert(id);
 
     std::vector<double> values;
     for (int index : inputs) {
@@ -54,10 +55,7 @@ double Neuron::evaluateR(const Neurons &neurons,
         int cantor_val = cantor(currentNeuron.get_id(), id);
         const Connection &currentConnection = connections[connection_map.at(cantor_val)];
         double weight = currentConnection.get_weight();
-        std::cout << "MID LOOP 1 Neuron::evaluate()" << std::endl;
-        std::cout << currentNeuron << std::endl;
-        double value = currentNeuron.evaluate(neurons, connections, connection_map);
-        std::cout << "END LOOP Neuron::evaluate()" << std::endl;
+        double value = currentNeuron.evaluateR(neurons, connections, connection_map, visited_neurons);
 
         // cout << "CURRENT NEURON # " << currentNeuron.id << endl;
         // cout << currentConnection << endl;
@@ -69,7 +67,6 @@ double Neuron::evaluateR(const Neurons &neurons,
         values.push_back(weight * value);
     }
 
-    visited_neurons.insert(id);
     return activation_functions[activation_id](values);
 }
 

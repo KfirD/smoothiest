@@ -89,8 +89,6 @@ std::vector<double> Network::evaluate(const std::vector<double> &inputs)
 {
     set_input_neurons(inputs);
 
-    std::cout << "######## Network::evaluate()" << endl;
-
     std::vector<double> outputs;
     for (int i = num_in; i < (num_in + num_out); i++) {
         Neuron &currentNeuron = neurons[i];
@@ -208,4 +206,4 @@ std::ostream &operator<<(std::ostream& out, const Network &network) {
     }
 
     return out;
- }
+}

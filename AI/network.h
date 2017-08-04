@@ -11,22 +11,21 @@ using namespace std;
 
 class Network {
 public:
-   Network(int num_in, int num_out);
-   const Neurons &get_neurons() const;
-   Neurons &get_neurons();
-   const Connections &get_connections() const;
-   Connections &get_connections();
-   const std::unordered_map<int, int> &get_connection_map() const;
-   std::unordered_map<int, int> &get_connection_map();
-   bool connect(int in, int out, double weight);
-   std::vector<double> evaluate(const std::vector<double> &inputs);
+    Network(int num_in, int num_out);
+    bool connect(int in, int out, double weight);
+    int add_new_neuron();
+    void mutate();
+    std::vector<double> evaluate(const std::vector<double> &inputs);
 
-   Connection &get_random_connection();
-   Neuron &get_random_neuron();
-   Connection get_random_unconnection();
-
-   int add_new_neuron();
-   void mutate();
+    const Neurons &get_neurons() const;
+    Neurons &get_neurons();
+    const Connections &get_connections() const;
+    Connections &get_connections();
+    const std::unordered_map<int, int> &get_connection_map() const;
+    std::unordered_map<int, int> &get_connection_map();
+    Connection &get_random_connection();
+    Neuron &get_random_neuron();
+    Connection get_random_unconnection();
 private:
     // Data
     const int num_in;

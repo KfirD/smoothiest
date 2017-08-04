@@ -7,6 +7,11 @@ const int input_count = 5;
 const int output_count = 5;
 const int population_size = 100;
 
+double change(double input)
+{
+    return std::pow(input, 2);
+}
+
 double feedback(vector<double> &inputs, vector<double> &outputs)
 {
     if (inputs.size() != outputs.size()) {
@@ -16,9 +21,12 @@ double feedback(vector<double> &inputs, vector<double> &outputs)
 
     double diff = 0;
     for (int i = 0; i < inputs.size(); i++) {
-        diff += std::abs(inputs[i] - outputs[i]);
+        double goal = change(inputs[i]);
+        double real = outputs[i];
+
+        diff -= std::pow(std::abs(goal - real), 2);
     }
-    return -diff;
+    return diff;
 }
 
 Trainer::Trainer():
@@ -38,7 +46,7 @@ void Trainer::train(int generations)
     std::vector<double> inputs1 = pop.generate_random_input();
     std::vector<double> outputs1 = best_network.evaluate(inputs1);
 
-    std::cout << "The best network is:" << std::endl;
+    std::cout << endl << "The best network is:" << std::endl;
     std::cout << best_network << std::endl;
 
     std::cout << "inputs1: " << std::endl;
@@ -50,5 +58,11 @@ void Trainer::train(int generations)
     std::cout << "outputs1: " << std::endl;
     for (double out : outputs1) {
         std::cout << out << std::endl;
+    }
+    std::cout << std::endl;
+
+    std::cout << "goals: " << std::endl;
+    for (double goal : inputs1) {
+        std::cout << change(goal) << std::endl;
     }
 }

@@ -23,12 +23,6 @@ void breed_in_connection(Network &child, const Connection &parentCon)
         cout << parentCon << endl;
     }
 
-    // cout << "BREEDING CHILD" << endl;
-    // cout << "Child: " << endl;
-    // cout << child << endl;
-    // cout << "Parent connection: " << endl;
-    // cout << parentCon << endl;
-    // Check if there is a new node in parentCon and add it if there is
     int child_neuron_count = childNeurons.size();
     if (child_neuron_count < in || child_neuron_count < out) {
         int new_id = child.add_new_neuron();
@@ -83,7 +77,7 @@ double (*_feedback)(vector<double>&, vector<double>&)):
     feedback(_feedback)
 {
     //populate population with single mutation networks
-    for(int i = 0; i < size; i ++) {
+    for (int i = 0; i < size; i ++) {
         ranks.push_back(Rank(Network(_num_inputs, _num_outputs), 0));
         Network &n = ranks.back().first;
         n.mutate();
@@ -91,11 +85,13 @@ double (*_feedback)(vector<double>&, vector<double>&)):
 }
 
 vector<double> Population::generate_random_input() {
-   vector<double> random_inputs;
-   for(int i = 0; i < num_inputs; i++) {
-      random_inputs.push_back(random_p());
-   }
-   return random_inputs;
+    const int bias = 5;
+
+    vector<double> random_inputs;
+    for(int i = 0; i < num_inputs; i++) {
+        random_inputs.push_back(bias * random_p());
+    }
+    return random_inputs;
 }
 
 int Population::get_size() {
@@ -105,31 +101,21 @@ int Population::get_size() {
 //TODO: optimize this. advancing thru lists takes O(N) time
 Network &Population::get_random_network() {
    int random = random_big() % get_size();
-   auto ptr = ranks.begin();
-   advance(ptr, random);
-   return (*ptr).first;
+   return ranks[random];
 }
 
 void Population::reset_fitnesses() {
-   for(Rank &rank: ranks) {
+   for (Rank &rank: ranks) {
       rank.second = 0;
    }
 }
 
 void Population::evaluate_fitness(int num_times) {
-    // std::vector<std::thread> threads;
-    // for (int i = 0; i < num_times; i++) {
-    //     threads.push_back()
-    // }
+    std::vector<std::thread> threads(100);
 
     for (Rank &rank : ranks) {
-        cout << "Get rank network" << endl;
         Network &network = rank.first;
-
-        cout << "Generate random input" << endl;
         vector<double> inputs = generate_random_input();
-
-        cout << "Get network fitness" << endl;
         rank.second = get_network_fitness(network, inputs, num_times);
     }
 }
@@ -177,12 +163,8 @@ Network Population::get_best_network()
 }
 
 void Population::run_generation() {
-    cout << "reset fitness" << endl;
     reset_fitnesses();
-    cout << "evaluate fitness" << endl;
     evaluate_fitness(100); //evaulates 100 times
-    cout << "kill inferior population" << endl;
     kill_inferior_population(80); //kills bottom 80%
-    cout << "restore population" << endl;
     restore_population(100);
 }
