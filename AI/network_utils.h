@@ -39,6 +39,7 @@ public:
    std::vector<int> &get_inputs();
    const std::vector<int> &get_outputs() const;
    std::vector<int> &get_outputs();
+   void print_connections() const;
 private:
     int activation_id;
     double override_value;
@@ -57,21 +58,18 @@ std::ostream &operator<<(std::ostream &out, const Neuron &neuron);
 
 class Connection {
 public:
-   Connection(int in, int out, double weight);
-   int get_id() const;
-   bool enabled;
-   int get_in() const;
-   int get_out() const;
-   double get_weight() const;
+    Connection(int in, int out, double weight);
+    int get_id() const;
+    int get_in() const;
+    int get_out() const;
+    double get_weight() const;
 
-   void set_weight(double new_weight);
-   void enable();
-   void disable();
+    void set_weight(double new_weight);
 private:
-   const int id;
-   const int in;
-   const int out;
-   double weight;
+    int id;
+    int in;
+    int out;
+    double weight;
 };
 
 std::ostream &operator<<(std::ostream &out, const Connection &con);

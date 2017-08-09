@@ -9,6 +9,11 @@
 #include "network.h"
 #include "network_utils.h"
 
+//bijective function (int,int)->int
+int cantor(int x, int y) {
+   return (x+y)*(x+y+1)/2 + y;
+}
+
 //Neuron ---------------------------------------------------------------
 Neuron::Neuron(int id):
     id(id),
@@ -50,7 +55,7 @@ double Neuron::evaluateR(const Neurons &neurons,
     std::vector<double> values;
     for (int index : inputs) {
         // std::cout << "BEGIN LOOP Neuron::evaluate()" << std::endl;
-        if (index >= neurons.size()) std::cout << "############ BAD INDEX" << std::endl;
+        //if (index >= neurons.size()) std::cout << "############ BAD INDEX" << std::endl;
         const Neuron &currentNeuron = neurons[index];
         int cantor_val = cantor(currentNeuron.get_id(), id);
         const Connection &currentConnection = connections[connection_map.at(cantor_val)];
@@ -67,7 +72,11 @@ double Neuron::evaluateR(const Neurons &neurons,
         values.push_back(weight * value);
     }
 
-    return activation_functions[activation_id](values);
+    double activation_result = activation_functions[activation_id](values);
+   //  cout << "Activation id: " << activation_id << endl;
+   //  cout << "Activation result: " << activation_result << endl;
+
+    return activation_result;
 }
 
 void Neuron::add_input(int new_in) { inputs.push_back(new_in); }
@@ -89,6 +98,19 @@ std::vector<int> &Neuron::get_inputs() { return inputs; }
 const std::vector<int> &Neuron::get_inputs() const { return inputs; }
 std::vector<int> &Neuron::get_outputs() { return outputs; }
 const std::vector<int> &Neuron::get_outputs() const { return outputs; }
+
+void Neuron::print_connections() const
+{
+    std::cout << "Inputs: " << std::endl;
+    for (int input : inputs) {
+        std::cout << "- " << input << endl;
+    }
+
+    std::cout << "Outputs: " << std::endl;
+    for (int output : outputs) {
+        std::cout << "- " << output << endl;
+    }
+}
 
 std::ostream &operator<<(std::ostream &out, const Neuron &neuron)
 {
@@ -115,10 +137,6 @@ std::ostream &operator<<(std::ostream &out, const Neuron &neuron)
 }
 
 //Connection -----------------------------------------------------------
-//bijective function (int,int)->int
-int cantor(int x, int y) {
-   return (x+y)*(x+y+1)/2 + y;
-}
 
 Connection::Connection(int in, int out, double weight):
     id(cantor(in, out)),
@@ -132,8 +150,6 @@ int Connection::get_out() const {return out;}
 double Connection::get_weight() const {return weight;}
 
 void Connection::set_weight(double new_weight) {weight = new_weight;}
-void Connection::enable() {enabled = true;}
-void Connection::disable() {enabled = false;}
 
 std::ostream &operator<<(std::ostream &out, const Connection &con)
 {

@@ -3,8 +3,8 @@
 
 #include "trainer.h"
 
-const int input_count = 5;
-const int output_count = 5;
+const int input_count = 3;
+const int output_count = 3;
 const int population_size = 100;
 
 double change(double input)
@@ -37,10 +37,16 @@ Trainer::Trainer():
 
 void Trainer::train(int generations)
 {
-    for (int i = 0; i < generations; i++) {
+    std::cout << "Running generation " << 0 << std::endl;
+    pop.run_generation();
+
+    double starting_fitness = pop.get_average_fitness();
+    for (int i = 1; i < generations; i++) {
         std::cout << "Running generation " << i << std::endl;
         pop.run_generation();
+        // std::cout << "Average fitness: " << pop.get_average_fitness() << std::endl;
     }
+    double ending_fitness = pop.get_average_fitness();
 
     Network best_network(pop.get_best_network());
     std::vector<double> inputs1 = pop.generate_random_input();
@@ -65,4 +71,6 @@ void Trainer::train(int generations)
     for (double goal : inputs1) {
         std::cout << change(goal) << std::endl;
     }
+
+    std::cout << "The network improved by " << ending_fitness - starting_fitness << std::endl;
 }

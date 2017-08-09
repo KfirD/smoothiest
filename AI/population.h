@@ -5,31 +5,30 @@
 
 #include "network.h"
 
-using Networks = vector<Network>;
+using Networks = std::vector<Network>;
 using Rank = std::pair<Network, double>;
 
 class Population {
 public:
-   Population(int num_inputs, int num_outputs, int size,
-   double (*_feedback)(vector<double>&, vector<double>&));
+    Population(int num_inputs, int num_outputs, int size,
+        double (*_feedback)(vector<double>&, vector<double>&));
 
-   std::vector<Rank> ranks;
+    std::vector<Rank> ranks;
 
-   double (*feedback)(vector<double>&, vector<double>&);
-
-   int get_size();
-   void run_generation();
-   void reset_fitnesses();
-   void evaluate_fitness(int num_times);
-   double get_network_fitness(Network &network, vector<double> &inputs, int trials);
-   void kill_inferior_population(double percentage);
-   void restore_population(int target_size);
-   Network get_best_network();
-   vector<double> generate_random_input();
+    int get_size() const;
+    void run_generation();
+    double get_average_fitness() const;
+    void reset_fitnesses();
+    void evaluate_fitness(int num_times);
+    void replace_inferior_population(double percentage);
+    Network &get_best_network();
+    vector<double> generate_random_input();
 private:
-   const int num_inputs;
-   const int num_outputs;
-   Network &get_random_network();
+    const int num_inputs;
+    const int num_outputs;
+    const int pop_size;
+    double (*feedback)(vector<double>&, vector<double>&);
+    Network &get_random_network();
 };
 
 Network breed(const Network &network1, const Network &network2);
