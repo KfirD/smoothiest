@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "generation.h"
+#include "innovation_tracker.h"
 #include "network.h"
 
 using Networks = std::vector<Network>;
@@ -22,15 +24,20 @@ public:
     void evaluate_fitness(int num_times);
     void replace_inferior_population(double percentage);
     Network &get_best_network();
-    vector<double> generate_random_input();
+    vector<double> generate_random_input() const;
 private:
+    // Data
     const int num_inputs;
     const int num_outputs;
     const int pop_size;
     double (*feedback)(vector<double>&, vector<double>&);
+    Generation current_generation;
+    InnovationTracker innovation_tracker;
+
+    // Methods
     Network &get_random_network();
 };
 
-Network breed(const Network &network1, const Network &network2);
+Network breed(const Rank &rank1, const Rank &rank2);
 
 #endif

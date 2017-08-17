@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <exception>
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -17,13 +18,13 @@ int cantor(int x, int y) {
 //Neuron ---------------------------------------------------------------
 Neuron::Neuron(int id):
     id(id),
-    activation_id(std::rand() % (activation_function_count - 2) + 2), // std::rand() % activation_function_count
+    activation_id(std::rand() % (activation_function_count - 2) + 2),
     override_value(-1),
     override_flag(false) {}
 
 Neuron::Neuron(int id, double override_value):
     id(id),
-    activation_id(std::rand() % (activation_function_count - 2) + 2), // std::rand() % activation_function_count
+    activation_id(std::rand() % (activation_function_count - 2) + 2), // skip input and output
     override_value(override_value),
     override_flag(true) {}
 
@@ -31,51 +32,43 @@ int Neuron::get_id() const { return id; }
 
 double Neuron::evaluate(const Neurons &neurons,
     const Connections &connections,
-    const std::unordered_map<int, int> &connection_map) const
+    const std::unordered_map<int, int> &connection_map,
+    const std::vector<double> &inputs) const
 {
     std::unordered_set<int> visited_neurons;
-    return evaluateR(neurons, connections, connection_map, visited_neurons);
+    return evaluateR(neurons, connections, connection_map, inputs, visited_neurons);
 }
 
 double Neuron::evaluateR(const Neurons &neurons,
     const Connections &connections,
     const std::unordered_map<int, int> &connection_map,
+    const std::vector<double> &input_values,
     std::unordered_set<int> &visited_neurons) const
 {
-    if (override_flag) {
-        return override_value;
+    // Return input value if neuron is an input
+    if (activation_id == 0) {
+        return input_values.at(id);
     }
 
+    // End recursion if neuron has already been visited
     if (visited_neurons.find(id) != visited_neurons.end()) {
-        //std::cout << "Neuron already visited" << std::endl;
-        return 0;   // This node has already been visited
+        return 0;
     }
     visited_neurons.insert(id);
 
+    // Loop through inputs, recursively evaluating each one
     std::vector<double> values;
-    for (int index : inputs) {
-        // std::cout << "BEGIN LOOP Neuron::evaluate()" << std::endl;
-        //if (index >= neurons.size()) std::cout << "############ BAD INDEX" << std::endl;
-        const Neuron &currentNeuron = neurons[index];
+    for (int input_index : inputs) {
+        const Neuron &currentNeuron = neurons[input_index];
         int cantor_val = cantor(currentNeuron.get_id(), id);
         const Connection &currentConnection = connections[connection_map.at(cantor_val)];
         double weight = currentConnection.get_weight();
-        double value = currentNeuron.evaluateR(neurons, connections, connection_map, visited_neurons);
-
-        // cout << "CURRENT NEURON # " << currentNeuron.id << endl;
-        // cout << currentConnection << endl;
-        // cout << "cantor: " << cantor_val << endl;
-        // cout << "weight: " << weight << endl;
-        // cout << "value: " << value << endl;
-        // cout << "end value: " << weight * value << endl;
+        double value = currentNeuron.evaluateR(neurons, connections, connection_map, input_values, visited_neurons);
 
         values.push_back(weight * value);
     }
 
     double activation_result = activation_functions[activation_id](values);
-   //  cout << "Activation id: " << activation_id << endl;
-   //  cout << "Activation result: " << activation_result << endl;
-
     return activation_result;
 }
 
@@ -138,13 +131,13 @@ std::ostream &operator<<(std::ostream &out, const Neuron &neuron)
 
 //Connection -----------------------------------------------------------
 
-Connection::Connection(int in, int out, double weight):
-    id(cantor(in, out)),
+Connection::Connection(int innovation_number, int in, int out, double weight):
+    innovation_number(innovation_number),
     in(in),
     out(out),
     weight(weight) {}
 
-int Connection::get_id() const {return id;}
+int Connection::get_innovation_number() const {return innovation_number;}
 int Connection::get_in() const {return in;}
 int Connection::get_out() const {return out;}
 double Connection::get_weight() const {return weight;}
@@ -153,7 +146,7 @@ void Connection::set_weight(double new_weight) {weight = new_weight;}
 
 std::ostream &operator<<(std::ostream &out, const Connection &con)
 {
-    out << con.get_id() << ": \t" << con.get_in() << "->";
+    out << con.get_innovation_number() << ": \t" << con.get_in() << "->";
     out << con.get_out() << "\t w: " << con.get_weight();
 
     return out;

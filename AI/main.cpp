@@ -4,36 +4,47 @@
 #include "network.h"
 #include "network_utils.h"
 #include "trainer.h"
+#include "generation.h"
 
 using namespace std;
 
 int main() {
-    Trainer t;
-    t.train(40);
+    Generation gen(3, 3, 100);
+    std::cout << gen << std::endl;
 
-    // std::cout << "Before" << std::endl;
-    // Network n(2, 2);
-    // int new_neuron = n.add_new_neuron();
+    // int input_count = 3;
+    // int output_count = 3;
+    // InnovationTracker tracker;
+    // for (int i = 0; i < input_count * output_count; i++) { tracker.new_innovation(); }
+    // Network n1(input_count, output_count, &tracker);
+    // Network n2(input_count, output_count, &tracker);
     //
-    // std::cout << std::endl << "BUGGY SHIT STARTS HERE" << std::endl;
+    // std::cout << "Disjoint testing" << std::endl;
     //
-    // n.disconnect(0, 2);
-    // n.disconnect(0, 3);
-    // n.connect(0, new_neuron, 0.5);
+    // std::cout << "Disjoint count between n1 and n2: " << n1.disjoint_count_with(n2) << std::endl;
+    // std::cout << "Excess count between n1 and n2: " << n1.excess_count_with(n2) << std::endl;
     //
-    // std::cout << "BUGGY SHIT ENDS HERE" << std::endl;
+    // n2.disconnect(2, 5);
+    // std::cout << "Disconnected 2-5 in n2" << std::endl;
+    // std::cout << "Disjoint count between n1 and n2: " << n1.disjoint_count_with(n2) << std::endl;
+    // std::cout << "Excess count between n1 and n2: " << n1.excess_count_with(n2) << std::endl;
     //
-    // std::cout << std::endl << "After" << std::endl;
-    // for (auto &con : n.get_connections()) {
-    //     std::cout << con << std::endl;
-    // }
+    // n2.disconnect(1, 4);
+    // std::cout << "Disconnected 1-4 in n2" << std::endl;
+    // std::cout << "Disjoint count between n1 and n2: " << n1.disjoint_count_with(n2) << std::endl;
+    // std::cout << "Excess count between n1 and n2: " << n1.excess_count_with(n2) << std::endl;
+    //
+    // n2.connect(2, 5, 0.5);
+    // std::cout << "Reconnected 2-5 in n2" << std::endl;
+    // std::cout << "Disjoint count between n1 and n2: " << n1.disjoint_count_with(n2) << std::endl;
+    // std::cout << "Excess count between n1 and n2: " << n1.excess_count_with(n2) << std::endl;
+    //
+    // n2.connect(1, 4, 0.5);
+    // std::cout << "Reconnected 1-4 in n2" << std::endl;
+    // std::cout << "Disjoint count between n1 and n2: " << n1.disjoint_count_with(n2) << std::endl;
+    // std::cout << "Excess count between n1 and n2: " << n1.excess_count_with(n2) << std::endl;
+    // std::cout << "N1: " << n1 << std::endl;
+    // std::cout << "N2: " << n2 << std::endl;
 
     return 0;
 }
-
-// #define CATCH_CONFIG_MAIN
-// #include "catch.h"
-//
-// TEST_CASE( "Network is checked", "[network]" ) {
-//
-// }
