@@ -14,6 +14,8 @@ public:
     Generation(int input_count, int output_count, int pop_size, double (*_feedback)(vector<double>&, vector<double>&));
     Generation create_new_generation();
     bool are_same_species(const Network &n1, const Network &n2) const;
+    void evaluate_organisms();
+    Organism &get_best_organism();
 
     friend std::ostream &operator<<(std::ostream &out, const Generation &gen);
 private:

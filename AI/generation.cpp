@@ -1,6 +1,7 @@
 
 #include <exception>
 #include <iostream>
+#include <thread>
 #include <unordered_map>
 #include <vector>
 
@@ -38,6 +39,7 @@ Generation Generation::create_new_generation()
     // 2. Fill each species to its new size using the top r% of organisms
     // 3. Re-speciate all organisms
 
+    evaluate_organisms();
     resize_species();
     populate_species();
     speciate_organisms();
@@ -66,6 +68,16 @@ bool Generation::are_same_species(const Network &n1, const Network &n2) const
     return compatibility_value <= compatibility_threshold;
 }
 
+Organism &Generation::get_best_organism()
+{
+    std::vector<Organism *> sorted_organisms;
+    std::sort(sorted_organisms.begin(), sorted_organisms.end(), [](const Organism *a, const Organism *b) {
+        return a->fitness > b->fitness;
+    });
+
+    return *sorted_organisms[0];
+}
+
 void Generation::speciate_organisms()
 {
     // Loop through each organism
@@ -73,7 +85,7 @@ void Generation::speciate_organisms()
         // Get random organism
         int random_index = random_big() % organisms.size();
 
-        // std::cout << std::endl << "Initial random number: " << random_index << std::endl;
+        std::cout << std::endl << "Initial random number: " << random_index << std::endl;
 
         // Starting from the random organism, loop through all organisms until an unspecied organism is found
         int organism_index = 0;
@@ -81,10 +93,22 @@ void Generation::speciate_organisms()
             organisms.at(organism_index).species_name != -1;
             organism_index = ((organism_index + 1) % organisms.size()))
         {
-            // std::cout << "Random organism finding loop: " << organism_index << std::endl;
+            std::cout << "Random organism finding loop: " << organism_index << std::endl;
         }
 
+
+
         Organism &current_organism = organisms.at(organism_index);
+
+
+        std::cout << "##### Printing out all species data (There shouldn't be any!)" << std::endl;
+        for (const auto &pair : species) {
+            for (const int index : pair.second.get_organism_indexes()) {
+                Organism &current_organism = organisms[index];
+
+                std::cout << index << ": " << current_organism << std::endl;
+            }
+        }
 
         if (current_organism.species_name != Organism::UnspeciedOrganism) std::cout << "ERROR: current organism is specied." << std::endl;
 
@@ -103,27 +127,70 @@ void Generation::speciate_organisms()
                 const Organism &current_specied_organism = organisms.at(*specied_organism_it);
 
                 if (are_same_species(current_specied_organism.network, current_organism.network)) {
-                    // std::cout << "The organism DID MATCH a species" << std::endl;
+                    std::cout << "The organism DID MATCH a species" << std::endl;
+
+                    std::cout << "Current organism: " << current_organism << std::endl;
+                    std::cout << "Random organism: " << current_specied_organism << std::endl;
+
                     current_organism.species_name = current_specied_organism.species_name;
-                    species.at(current_organism.species_name).add(organism_index);
-                    species.at(current_organism.species_name).size++;
+                    species[current_organism.species_name].add(organism_index);
+                    species[current_organism.species_name].size++;
 
                     goto endloop;   // GOTO, POSSIBLE BUGS
                 }
             }
         }
-        // std::cout << "The organism DID NOT match any existing species" << std::endl;
+        std::cout << "The organism DID NOT match any existing species" << std::endl;
 
         // If the organism didn't match with any existing species, add it to a new species
         species.emplace(species_counter, Species());
         current_organism.species_name = species_counter;
-        species.at(species_counter).add(organism_index);
-        species.at(species_counter).size++;
+        species[species_counter].add(organism_index);
+        species[species_counter].size++;
         species_counter++;
 
         // Inner loop jumps here if the organism matches with an existing species
         // This skips over the default new species creation above
         endloop: ;
+    }
+}
+
+// Helper function for Generation::evaluate_organisms
+static void evaluate_network(int organism_index,
+    std::vector<Organism> *organisms,
+    std::vector<double> inputs,
+    int trials,
+    double (*feedback)(vector<double> &, vector<double> &))
+{
+    static std::mutex ranks_mutex;
+    Organism &organism = (*organisms)[organism_index];
+    Network &network = organism.network;
+
+    double fitness = 0;
+    for (int i = 0; i < trials; i++) {
+        vector<double> outputs = network.evaluate(inputs);
+        fitness += feedback(inputs, outputs);
+    }
+
+    std::lock_guard<std::mutex> guard(ranks_mutex);
+    organism.fitness = fitness;
+}
+
+void Generation::evaluate_organisms()
+{
+    // Parallel algorithm
+    std::vector<std::thread> threads;
+    for (int i = 0; i < population_size; i++) {
+        threads.emplace_back(evaluate_network,
+            i,
+            &organisms,
+            generate_random_input(),
+            1,
+            fitness_function);
+    }
+
+    for (auto &it : threads) {
+        it.join();
     }
 }
 
@@ -210,6 +277,10 @@ void Generation::populate_species()
         }
     }
 
+    if (organisms.size() != new_organisms.size())
+        std::cerr << "ERROR: old and new organisms sizes don't match." << std::endl;
+
+    species.clear();
     organisms = new_organisms;
 }
 
