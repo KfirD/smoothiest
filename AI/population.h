@@ -38,6 +38,4 @@ private:
     Network &get_random_network();
 };
 
-Network breed(const Rank &rank1, const Rank &rank2);
-
 #endif

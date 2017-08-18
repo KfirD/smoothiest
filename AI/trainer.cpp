@@ -7,12 +7,12 @@ const int input_count = 3;
 const int output_count = 3;
 const int population_size = 100;
 
-double change(double input)
+static double change(double input)
 {
     return std::pow(input, 2);
 }
 
-double feedback(vector<double> &inputs, vector<double> &outputs)
+static double feedback(vector<double> &inputs, vector<double> &outputs)
 {
     if (inputs.size() != outputs.size()) {
         std::cerr << "ERROR: feedback inputs and outputs have mismatching sizes." << std::endl;

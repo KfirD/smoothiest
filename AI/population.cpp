@@ -16,41 +16,6 @@ const int training_runs = 100;
 
 using namespace std;
 
-Network breed(const Rank &rank1, const Rank &rank2)
-{
-    // Child inherits genes from most fit parent
-    // then randomly choose between parents for shared genes
-
-    // Find most fit parent
-    const Network *most_fit_parent = nullptr;
-    const Network *least_fit_parent = nullptr;
-    if (rank1.second > rank2.second) {
-        most_fit_parent = &rank1.first;
-        least_fit_parent = &rank2.first;
-    } else {
-        most_fit_parent = &rank2.first;
-        least_fit_parent = &rank1.first;
-    }
-
-    Network child = *most_fit_parent;
-    const Network &parent = *least_fit_parent;
-    Connections &childCons = child.get_connections();
-    const Connections &parentCons = parent.get_connections();
-
-    for (const Connection &parentCon : parentCons) {
-        for (Connection &childCon : childCons) {
-            if (parentCon.get_innovation_number() == childCon.get_innovation_number()) {
-                if (random_p() < 0.5)
-                    childCon.set_weight(parentCon.get_weight());
-                break;
-            }
-        }
-    }
-
-    child.mutate();
-    return child;
-}
-
 //Population()
 //Notice the constructor takes in a function point to a feedback
 //function
@@ -61,7 +26,7 @@ Population::Population(int _num_inputs, int _num_outputs, int size,
     num_outputs(_num_outputs),
     pop_size(size),
     feedback(_feedback),
-    current_generation(num_inputs, num_outputs, pop_size)
+    current_generation(num_inputs, num_outputs, pop_size, _feedback)
 {
     //populate population with single mutation networks
     for (int i = 0; i < pop_size; i ++) {
@@ -158,7 +123,7 @@ void Population::replace_inferior_population(double percentage) {
         const Rank &r1 = ranks[parent1_index];
         const Rank &r2 = ranks[parent2_index];
 
-        ranks[i].first = breed(r1, r2);
+        //ranks[i].first = breed(r1, r2);
     }
 }
 
@@ -174,6 +139,8 @@ void Population::run_generation() {
     reset_fitnesses();
     evaluate_fitness(training_runs);
     replace_inferior_population(kill_percentage);
+
+    current_generation = current_generation.create_new_generation();
 }
 
 double Population::get_average_fitness() const

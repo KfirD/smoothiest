@@ -19,7 +19,7 @@ int cantor(int a, int b);
 class Neuron {
 public:
     // Data
-    const int id;
+    int id;
 
     // Methods
     Neuron(int id);

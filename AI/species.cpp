@@ -6,30 +6,13 @@
 
 std::ostream &operator<<(std::ostream &out, const Organism &o)
 {
-    out << "Species: " << o.species_index;
+    out << "Species: " << o.species_name;
     return out;
 }
 
-Species::Species()
-{
+Species::Species() {}
 
-}
+void Species::add(int organism_index) { organisms.push_back(organism_index); }
 
-void Species::add(Organism &organism)
-{
-    organisms.push_back(&organism);
-}
-
-std::vector<Organism *> &Species::get_organisms()
-{
-    return organisms;
-}
-
-std::ostream &operator<<(std::ostream &out, const Species &s)
-{
-    out << "Organism count: " << s.organisms.size() << std::endl;
-    for (const Organism *o : s.organisms) {
-        out << o << std::endl;
-    }
-    return out;
-}
+std::vector<int> &Species::get_organism_indexes() { return organisms; }
+const std::vector<int> &Species::get_organism_indexes() const { return organisms; }

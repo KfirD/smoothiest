@@ -10,21 +10,27 @@
 class Species;
 
 struct Organism {
-    int species_index;
+    int species_name;
+    double fitness;
     Network network;
+
+    static const int UnspeciedOrganism = -1;
 };
 
 std::ostream &operator<<(std::ostream &out, const Organism &o);
 
 class Species {
 public:
-    Species();
-    void add(Organism &organism);
-    std::vector<Organism *> &get_organisms();
+    // Data
+    int size;
 
-    friend std::ostream &operator<<(std::ostream &out, const Species &s);
+    // Methods
+    Species();
+    void add(int organism_index);
+    std::vector<int> &get_organism_indexes();
+    const std::vector<int> &get_organism_indexes() const;
 private:
-    std::vector<Organism *> organisms;
+    std::vector<int> organisms;
 };
 
 #endif
