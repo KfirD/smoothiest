@@ -1,3 +1,19 @@
-.DS_Store
-smoothiest
+# Build artifacts
 *.o
+smoothiest
+smoothiest3d
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.tmp
